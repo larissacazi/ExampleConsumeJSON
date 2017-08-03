@@ -3,12 +3,14 @@ package zimmermann.larissa.legislativoteste;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by laris on 01/08/2017.
  */
 
-public class Proposicao implements Serializable{
+public class Proposicao{
+
     //@SerializedName("id")
     private int id;
     //@SerializedName("uri")
@@ -23,16 +25,6 @@ public class Proposicao implements Serializable{
     private int ano;
     //@SerializedName("ementa")
     private String ementa;
-
-    public Proposicao(int id, String uri, String sigla, int idTipo, int numero, int ano, String ementa) {
-        this.id = id;
-        this.uri = uri;
-        this.sigla = sigla;
-        this.idTipo = idTipo;
-        this.numero = numero;
-        this.ano = ano;
-        this.ementa = ementa;
-    }
 
     public int getId() {
         return id;
@@ -89,4 +81,5 @@ public class Proposicao implements Serializable{
     public void setEmenta(String ementa) {
         this.ementa = ementa;
     }
+
 }
