@@ -9,12 +9,12 @@ import java.util.List;
  * Created by laris on 01/08/2017.
  */
 
-public class Data implements Serializable{
+public class PropListResponse implements Serializable{
 
     private List<Proposicao> dados;
     private List<Link> links;
 
-    public Data(List<Proposicao> dados, List<Link> links) {
+    public PropListResponse(List<Proposicao> dados, List<Link> links) {
         this.dados = dados;
         this.links = links;
     }

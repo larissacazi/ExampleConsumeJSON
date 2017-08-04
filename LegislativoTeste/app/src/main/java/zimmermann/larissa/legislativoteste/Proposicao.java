@@ -1,30 +1,35 @@
 package zimmermann.larissa.legislativoteste;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
-import java.util.List;
-
 /**
  * Created by laris on 01/08/2017.
  */
 
 public class Proposicao{
 
-    //@SerializedName("id")
     private int id;
-    //@SerializedName("uri")
     private String uri;
-    //@SerializedName("siglaTipo")
-    private String sigla;
-    //@SerializedName("idTipo")
+    private String siglaTipo;
     private int idTipo;
-    //@SerializedName("numero")
     private int numero;
-    //@SerializedName("ano")
     private int ano;
-    //@SerializedName("ementa")
     private String ementa;
+    private String dataApresentacao;
+    private String uriOrgaoNumerador;
+    private String uriUltimoRelator;
+    private StatusProposicao statusProposicao;
+    private String tipoAutor;
+    private int idTipoAutor;
+    private String uriAutores;
+    private String descricaoTipo;
+    private String ementaDetalhada;
+    private String keywords;
+    private String uriPropPrincipal;
+    private String uriPropAnterior;
+    private String uriPropPosterior;
+    private String urlInteiroTeor;
+    private String urnFinal;
+    private String texto;
+    private String justificativa;
 
     public int getId() {
         return id;
@@ -42,12 +47,12 @@ public class Proposicao{
         this.uri = uri;
     }
 
-    public String getSigla() {
-        return sigla;
+    public String getSiglaTipo() {
+        return siglaTipo;
     }
 
-    public void setSigla(String sigla) {
-        this.sigla = sigla;
+    public void setSiglaTipo(String siglaTipo) {
+        this.siglaTipo = siglaTipo;
     }
 
     public int getIdTipo() {
@@ -82,4 +87,139 @@ public class Proposicao{
         this.ementa = ementa;
     }
 
+    public String getDataApresentacao() {
+        return dataApresentacao;
+    }
+
+    public void setDataApresentacao(String dataApresentacao) {
+        this.dataApresentacao = dataApresentacao;
+    }
+
+    public String getUriOrgaoNumerador() {
+        return uriOrgaoNumerador;
+    }
+
+    public void setUriOrgaoNumerador(String uriOrgaoNumerador) {
+        this.uriOrgaoNumerador = uriOrgaoNumerador;
+    }
+
+    public String getUriUltimoRelator() {
+        return uriUltimoRelator;
+    }
+
+    public void setUriUltimoRelator(String uriUltimoRelator) {
+        this.uriUltimoRelator = uriUltimoRelator;
+    }
+
+    public StatusProposicao getStatusProposicao() {
+        return statusProposicao;
+    }
+
+    public void setStatusProposicao(StatusProposicao statusProposicao) {
+        this.statusProposicao = statusProposicao;
+    }
+
+    public String getTipoAutor() {
+        return tipoAutor;
+    }
+
+    public void setTipoAutor(String tipoAutor) {
+        this.tipoAutor = tipoAutor;
+    }
+
+    public int getIdTipoAutor() {
+        return idTipoAutor;
+    }
+
+    public void setIdTipoAutor(int idTipoAutor) {
+        this.idTipoAutor = idTipoAutor;
+    }
+
+    public String getUriAutores() {
+        return uriAutores;
+    }
+
+    public void setUriAutores(String uriAutores) {
+        this.uriAutores = uriAutores;
+    }
+
+    public String getDescricaoTipo() {
+        return descricaoTipo;
+    }
+
+    public void setDescricaoTipo(String descricaoTipo) {
+        this.descricaoTipo = descricaoTipo;
+    }
+
+    public String getEmentaDetalhada() {
+        return ementaDetalhada;
+    }
+
+    public void setEmentaDetalhada(String ementaDetalhada) {
+        this.ementaDetalhada = ementaDetalhada;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public String getUriPropPrincipal() {
+        return uriPropPrincipal;
+    }
+
+    public void setUriPropPrincipal(String uriPropPrincipal) {
+        this.uriPropPrincipal = uriPropPrincipal;
+    }
+
+    public String getUriPropAnterior() {
+        return uriPropAnterior;
+    }
+
+    public void setUriPropAnterior(String uriPropAnterior) {
+        this.uriPropAnterior = uriPropAnterior;
+    }
+
+    public String getUriPropPosterior() {
+        return uriPropPosterior;
+    }
+
+    public void setUriPropPosterior(String uriPropPosterior) {
+        this.uriPropPosterior = uriPropPosterior;
+    }
+
+    public String getUrlInteiroTeor() {
+        return urlInteiroTeor;
+    }
+
+    public void setUrlInteiroTeor(String urlInteiroTeor) {
+        this.urlInteiroTeor = urlInteiroTeor;
+    }
+
+    public String getUrnFinal() {
+        return urnFinal;
+    }
+
+    public void setUrnFinal(String urnFinal) {
+        this.urnFinal = urnFinal;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public String getJustificativa() {
+        return justificativa;
+    }
+
+    public void setJustificativa(String justificativa) {
+        this.justificativa = justificativa;
+    }
 }

@@ -9,9 +9,7 @@ import java.io.Serializable;
  */
 
 public class Link implements Serializable{
-    //@SerializedName("rel")
     private String rel;
-    //@SerializedName("href")
     private String href;
 
     public Link(String rel, String href) {

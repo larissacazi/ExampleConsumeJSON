@@ -14,12 +14,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import zimmermann.larissa.legislativoteste.Data;
-import zimmermann.larissa.legislativoteste.Proposicao;
-import zimmermann.larissa.legislativoteste.ProposicaoAdapter;
-import zimmermann.larissa.legislativoteste.R;
-import zimmermann.larissa.legislativoteste.RetrofitService;
-import zimmermann.larissa.legislativoteste.ServiceGenerator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,24 +29,24 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("MainActivity", "Passou1");
 
-        Call<Data> call = service.getProposicaoList();
+        Call<PropListResponse> call = service.getDefaultProposicaoList();
 
-        call.enqueue(new Callback<Data>() {
+        call.enqueue(new Callback<PropListResponse>() {
             @Override
-            public void onResponse(Call<Data> call, Response<Data> response) {
+            public void onResponse(Call<PropListResponse> call, Response<PropListResponse> response) {
 
                 Log.d("MainActivity", "Recebeu resposta.");
                 if (response.isSuccessful()) {
                     Log.d("MainActivity", "Resposta recebida com sucesso.");
-                    Data respostaServidor = response.body();
+                    PropListResponse respostaServidor = response.body();
 
                     Log.d("MainActivity", "Response saved!");
 
                     //verifica aqui se o corpo da resposta não é nulo
                     if (respostaServidor != null) {
-                        Log.d("MainActivity", "Data structure received!");
-                        List<Proposicao> movies = respostaServidor.getDados();
-                        recyclerView.setAdapter(new ProposicaoAdapter(movies, R.layout.list_item_movie, getApplicationContext()));
+                        Log.d("MainActivity", "PropListResponse structure received!");
+                        List<Proposicao> props = respostaServidor.getDados();
+                        recyclerView.setAdapter(new ProposicaoAdapter(props, R.layout.list_item_movie, getApplicationContext()));
 
                     } else {
 
@@ -68,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Data> call, Throwable t) {
+            public void onFailure(Call<PropListResponse> call, Throwable t) {
 
                 Toast.makeText(getApplicationContext(), "Erro na chamada ao servidor", Toast.LENGTH_SHORT).show();
                 Log.d("MainActivity", "Error OnFailure()");
