@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.uncopt.android.widget.text.justify.JustifiedTextView;
+
 import java.util.List;
 
 import zimmermann.larissa.legislativoteste.R;
@@ -22,19 +24,17 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
 
     public static class ProposicaoViewHolder extends RecyclerView.ViewHolder {
         LinearLayout propsLayout;
-        TextView Id;
-        TextView ano;
-        TextView ementa;
-        TextView numero;
+        TextView situacao;
+        //TextView ano;
+        JustifiedTextView ementa;
 
 
         public ProposicaoViewHolder(View v) {
             super(v);
             propsLayout = (LinearLayout) v.findViewById(R.id.proposicao_layout);
-            Id = (TextView) v.findViewById(R.id.title);
-            ano = (TextView) v.findViewById(R.id.subtitle);
-            ementa = (TextView) v.findViewById(R.id.description);
-            numero = (TextView) v.findViewById(R.id.rating);
+            situacao = (TextView) v.findViewById(R.id.situacao);
+            //ano = (TextView) v.findViewById(R.id.data);
+            ementa = (JustifiedTextView) v.findViewById(R.id.ementa);
         }
     }
 
@@ -54,10 +54,10 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
 
     @Override
     public void onBindViewHolder(ProposicaoViewHolder holder, final int position) {
-        holder.Id.setText(String.valueOf(props.get(position).getId()));
-        holder.ano.setText(String.valueOf(props.get(position).getAno()));
-        holder.ementa.setText(props.get(position).getEmenta());
-        holder.numero.setText(String.valueOf(props.get(position).getNumero()));
+        holder.situacao.setText(String.valueOf(props.get(position).getIdTipo()) + " - " +
+                                String.valueOf(props.get(position).getAno()));
+        //holder.ano.setText(String.valueOf(props.get(position).getAno()));
+        holder.ementa.setText(props.get(position).getEmenta().toUpperCase());
     }
 
     @Override
