@@ -7,23 +7,23 @@
     android:gravity="center_vertical"
     android:minHeight="72dp"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:padding="3dp">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/border"
+        android:padding="5dp">
 
         <com.uncopt.android.widget.text.justify.JustifiedTextView
             android:id="@+id/ementa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:paddingRight="16dp"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/EmentaSize" />
-
 
         <TextView
             android:id="@+id/situacao"

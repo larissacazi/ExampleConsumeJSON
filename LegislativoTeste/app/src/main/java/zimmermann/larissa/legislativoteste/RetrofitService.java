@@ -15,7 +15,7 @@ public interface RetrofitService {
     @GET("proposicoes")
     Call<PropListResponse> getDefaultProposicaoList();        //Unidade final
 
-    @GET("proposicoes/12665")
-    Call<PropResponse> getProposicaoById();
+    @GET("proposicoes/{id}")
+    Call<PropResponse> getProposicaoById(@Path("id") int id);
 
 }

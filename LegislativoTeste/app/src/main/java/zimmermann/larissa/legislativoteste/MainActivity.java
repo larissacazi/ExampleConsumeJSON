@@ -39,14 +39,14 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Log.d("MainActivity", "Resposta recebida com sucesso.");
                     PropListResponse respostaServidor = response.body();
-
                     Log.d("MainActivity", "Response saved!");
 
                     //verifica aqui se o corpo da resposta não é nulo
                     if (respostaServidor != null) {
+                        respostaServidor.fillData();
                         Log.d("MainActivity", "PropListResponse structure received!");
                         List<Proposicao> props = respostaServidor.getDados();
-                        recyclerView.setAdapter(new ProposicaoAdapter(props, R.layout.list_item_movie, getApplicationContext()));
+                        recyclerView.setAdapter(new ProposicaoAdapter(props, R.layout.list_item_prop, getApplicationContext()));
 
                     } else {
 
@@ -68,6 +68,5 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MainActivity", "Error OnFailure()");
             }
         });
-
     }
 }

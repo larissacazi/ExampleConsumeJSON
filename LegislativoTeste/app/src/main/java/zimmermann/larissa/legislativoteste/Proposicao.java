@@ -6,30 +6,30 @@ package zimmermann.larissa.legislativoteste;
 
 public class Proposicao{
 
-    private int id;
-    private String uri;
-    private String siglaTipo;
-    private int idTipo;
-    private int numero;
-    private int ano;
-    private String ementa;
-    private String dataApresentacao;
-    private String uriOrgaoNumerador;
-    private String uriUltimoRelator;
-    private StatusProposicao statusProposicao;
-    private String tipoAutor;
-    private int idTipoAutor;
-    private String uriAutores;
-    private String descricaoTipo;
-    private String ementaDetalhada;
-    private String keywords;
-    private String uriPropPrincipal;
-    private String uriPropAnterior;
-    private String uriPropPosterior;
-    private String urlInteiroTeor;
-    private String urnFinal;
-    private String texto;
-    private String justificativa;
+    private int id = 0;
+    private String uri = "";
+    private String siglaTipo = "";
+    private int idTipo = 0;
+    private int numero = 0;
+    private int ano = 0;
+    private String ementa = "";
+    private String dataApresentacao = "";
+    private String uriOrgaoNumerador = "";
+    private String uriUltimoRelator = "";
+    private StatusProposicao statusProposicao = new StatusProposicao();
+    private String tipoAutor = "";
+    private int idTipoAutor = 0;
+    private String uriAutores = "";
+    private String descricaoTipo = "";
+    private String ementaDetalhada = "";
+    private String keywords = "";
+    private String uriPropPrincipal = "";
+    private String uriPropAnterior = "";
+    private String uriPropPosterior = "";
+    private String urlInteiroTeor = "";
+    private String urnFinal = "";
+    private String texto = "";
+    private String justificativa = "";
 
     public int getId() {
         return id;

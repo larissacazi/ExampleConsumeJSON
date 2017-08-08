@@ -5,17 +5,17 @@ package zimmermann.larissa.legislativoteste;
  */
 
 class StatusProposicao {
-    private String dataHora;
-    private int sequencia;
-    private String siglaOrgao;
-    private String uriOrgao;
-    private String regime;
-    private String descricaoTramitacao;
-    private String idTipoTramitacao;
-    private String descricaoSituacao;
-    private int idSituacao;
-    private String despacho;
-    private String url;
+    private String dataHora = "";
+    private int sequencia = 0;
+    private String siglaOrgao = "";
+    private String uriOrgao = "";
+    private String regime = "";
+    private String descricaoTramitacao = "";
+    private String idTipoTramitacao = "";
+    private String descricaoSituacao = "";
+    private int idSituacao = 0;
+    private String despacho = "";
+    private String url = "";
 
     public String getDataHora() {
         return dataHora;
