@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ext="http://schemas.android.com/tools"
     android:id="@+id/proposicao_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,27 +21,48 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="left">
 
             <TextView
-                android:id="@+id/dadosLabel"
+                android:id="@+id/idLabel"
+                android:text="@string/propCódigoLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
+                android:layout_gravity="start"
                 android:textStyle="bold"
                 android:textSize="@dimen/EmentaSize"
                 android:textColor="@color/colorGreyLight" />
 
             <TextView
-                android:id="@+id/dados"
+                android:id="@+id/id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
+                android:layout_gravity="start"
+                android:textSize="@dimen/EmentaSize"
+                android:textColor="@color/colorGreyLight" />
+
+            <TextView
+                android:id="@+id/anoLabel"
+                android:text="@string/propAnoLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textAlignment="gravity"
+                android:textStyle="bold"
+                android:textSize="@dimen/EmentaSize"
+                android:textColor="@color/colorGreyLight" />
+
+            <TextView
+                android:id="@+id/ano"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textAlignment="gravity"
                 android:textSize="@dimen/EmentaSize"
                 android:textColor="@color/colorGreyLight" />
 
         </LinearLayout>
-
 
         <com.bluejamesbond.text.DocumentView xmlns:document="http://schemas.android.com/apk/res-auto"
             android:id="@+id/ementa"
@@ -49,7 +71,11 @@
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/EmentaSize"
             android:layout_gravity="left"
-            document:documentView_textAlignment="justified"/>
+            document:documentView_textAlignment="justified"
+            document:documentView_insetPaddingRight="6dp"
+            document:paddingStart="1dp"
+            document:paddingEnd="1dp"
+            ext:documentView_textFormat="plain"/>
 
         <!--<com.uncopt.android.widget.text.justify.JustifiedTextView
             android:id="@+id/ementa"

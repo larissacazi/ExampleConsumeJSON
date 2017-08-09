@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LegislativoTeste</string>
+    <string name="propCódigoLabel">Código: </string>
+    <string name="propAnoLabel">Ano: </string>
 </resources>
