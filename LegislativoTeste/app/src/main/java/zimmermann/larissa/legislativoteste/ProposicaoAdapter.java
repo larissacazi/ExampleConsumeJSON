@@ -24,6 +24,7 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
 
     private List<Proposicao> props;
     private int rowLayout;
+    private Context context;
 
 
     public static class ProposicaoViewHolder extends RecyclerView.ViewHolder {
@@ -43,6 +44,7 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
     public ProposicaoAdapter(List<Proposicao> props, int rowLayout, Context context) {
         this.props = props;
         this.rowLayout = rowLayout;
+        this.context = context;
     }
 
     @Override
@@ -56,9 +58,7 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
     public void onBindViewHolder(final ProposicaoViewHolder holder, final int position) {
 
         holder.ementa.setText(new StringUtils().format(props.get(position).getEmenta()));
-
-        holder.situacao.setText(props.get(position).getStatusProposicao().getDescricaoSituacao() +
-                " - " + props.get(position).getDataApresentacao());
+       // holder.situacao.setText();
 
     }
 

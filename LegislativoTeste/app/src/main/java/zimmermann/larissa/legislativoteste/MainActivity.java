@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //Call first time
         RetrofitService service = ServiceGenerator.getClient().create(RetrofitService.class);
 
         Log.d("MainActivity", "Passou1");
