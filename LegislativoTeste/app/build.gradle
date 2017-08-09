@@ -4,12 +4,6 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
 
-    dependencies {
-        // recycler view
-        compile 'com.android.support:recyclerview-v7:25.3.1'
-        compile 'com.uncopt:android.justified:1.0'
-    }
-
     defaultConfig {
         applicationId "zimmermann.larissa.legislativoteste"
         minSdkVersion 21
@@ -42,4 +36,9 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    //compile 'com.uncopt:android.justified:1.0'
+    //compile 'com.codesgood:justifiedtextview:1.0.2'
+    compile 'com.github.bluejamesbond:textjustify-android:2.1.1'
 }

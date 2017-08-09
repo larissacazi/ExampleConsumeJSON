@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
                     //verifica aqui se o corpo da resposta não é nulo
                     if (respostaServidor != null) {
-                        respostaServidor.fillData();
                         Log.d("MainActivity", "PropListResponse structure received!");
                         List<Proposicao> props = respostaServidor.getDados();
                         recyclerView.setAdapter(new ProposicaoAdapter(props, R.layout.list_item_prop, getApplicationContext()));

@@ -1,6 +1,7 @@
 package zimmermann.larissa.legislativoteste;
 
 import android.content.Context;
+import android.support.v4.provider.DocumentFile;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +10,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.uncopt.android.widget.text.justify.JustifiedTextView;
+//import com.uncopt.android.widget.text.justify.JustifiedTextView;
+
+
+import com.bluejamesbond.text.DocumentView;
+//import com.codesgood.views.JustifiedTextView;
 
 import java.util.List;
 
@@ -29,15 +34,16 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
 
     public static class ProposicaoViewHolder extends RecyclerView.ViewHolder {
         LinearLayout propsLayout;
-        TextView situacao;
-        JustifiedTextView ementa;
-
+        TextView dadosLabel;
+        TextView dados;
+        DocumentView ementa;
 
         public ProposicaoViewHolder(View v) {
             super(v);
             propsLayout = (LinearLayout) v.findViewById(R.id.proposicao_layout);
-            situacao = (TextView) v.findViewById(R.id.situacao);
-            ementa = (JustifiedTextView) v.findViewById(R.id.ementa);
+            dadosLabel = (TextView) v.findViewById(R.id.dadosLabel);
+            dados = (TextView) v.findViewById(R.id.dados);
+            ementa = (DocumentView) v.findViewById(R.id.ementa);
         }
     }
 
@@ -57,8 +63,11 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
     @Override
     public void onBindViewHolder(final ProposicaoViewHolder holder, final int position) {
 
-        holder.ementa.setText(new StringUtils().format(props.get(position).getEmenta()));
-       // holder.situacao.setText();
+        holder.ementa.setText("Ementa: " + props.get(position).getEmenta().toUpperCase());
+
+        holder.dadosLabel.setText("Número: ");
+        holder.dados.setText(props.get(position).getId() +
+                             " - Ano: " + props.get(position).getAno());
 
     }
 
