@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">LegislativoApp</string>
+    <string name="app_name">INFO JÁ</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Sobre</string>
 
     <string name="propCódigoLabel">Código: </string>
     <string name="propAnoLabel">Ano: </string>

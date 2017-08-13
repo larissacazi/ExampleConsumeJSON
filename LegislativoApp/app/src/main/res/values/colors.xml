@@ -12,4 +12,5 @@
     <color name="colorGrey">#707070</color>
     <color name="colorGreyLight">#8A8A8A</color>
     <color name="colorGreyVeryLight">#DADADA</color>
+    <color name="main_background">#349eb1</color>
 </resources>
