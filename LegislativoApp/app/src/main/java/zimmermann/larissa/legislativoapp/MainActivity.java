@@ -37,6 +37,8 @@ import zimmermann.larissa.legislativoapp.service.ServiceGenerator;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    RecyclerTouchListener propTouch, situationTouch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,16 +146,16 @@ public class MainActivity extends AppCompatActivity
                         Log.d("MainActivity", "PropListResponse structure received!");
                         final List<Proposicao> props = respostaServidor.getDados();
 
-                        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
+                        propTouch = new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
                             //@Override
                             public void onClick(View view, int position) {
                                 if(position < props.size()){
                                     Proposicao prop = props.get(position);
-	                                Intent intent = new Intent(MainActivity.this, PropDetailsActivity.class);
-	                                Bundle b = new Bundle();
-	                                b.putInt("Id", prop.getId()); //Your id
-	                                intent.putExtras(b); //Put your id to your next Intent
-	                                startActivity(intent);
+                                    Intent intent = new Intent(MainActivity.this, PropDetailsActivity.class);
+                                    Bundle b = new Bundle();
+                                    b.putInt("Id", prop.getId()); //Your id
+                                    intent.putExtras(b); //Put your id to your next Intent
+                                    startActivity(intent);
                                 }
                             }
 
@@ -161,9 +163,13 @@ public class MainActivity extends AppCompatActivity
                             public void onLongClick(View view, int position) {
 
                             }
-                        }));
+                        });
 
-                        recyclerView.setAdapter(new ProposicaoAdapter(props, R.layout.list_item_prop2, getApplicationContext()));
+                        recyclerView.removeOnItemTouchListener(situationTouch);
+                        recyclerView.addOnItemTouchListener(propTouch);
+
+                        ProposicaoAdapter adapter = new ProposicaoAdapter(props, R.layout.list_item_prop2, getApplicationContext());
+                        recyclerView.setAdapter(adapter);
 
                     } else {
 
@@ -212,7 +218,7 @@ public class MainActivity extends AppCompatActivity
                         Log.d("MainActivity", "PropListResponse: structure received!");
                         final List<Situation> situationList = respostaServidor.getDados();
 
-                        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
+                        situationTouch = new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
                             //@Override
                             public void onClick(View view, int position) {
                                 if(position < situationList.size()) {
@@ -225,9 +231,13 @@ public class MainActivity extends AppCompatActivity
                             public void onLongClick(View view, int position) {
 
                             }
-                        }));
+                        });
 
-                        recyclerView.setAdapter(new SituationAdapter(situationList, R.layout.situation_prop_list, getApplicationContext()));
+                        recyclerView.removeOnItemTouchListener(propTouch);
+                        recyclerView.addOnItemTouchListener(situationTouch);
+
+                        SituationAdapter adapter = new SituationAdapter(situationList, R.layout.situation_prop_list, getApplicationContext());
+                        recyclerView.setAdapter(adapter);
 
                     } else {
 

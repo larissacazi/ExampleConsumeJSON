@@ -57,7 +57,7 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
     @Override
     public void onBindViewHolder(final ProposicaoViewHolder holder, final int position) {
 
-        holder.ementa.setText("Ementa: " + props.get(position).getEmenta().toUpperCase());
+        holder.ementa.setText("Ementa: " + props.get(position).getEmenta());
         holder.id.setText("Código: " + String.valueOf(props.get(position).getId()));
         holder.ano.setText("Ano: " + String.valueOf(props.get(position).getAno()));
 
@@ -72,8 +72,4 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
     public long getItemId(int position) {
         return props.get(position).getId();
     }
-
-
-
-
 }

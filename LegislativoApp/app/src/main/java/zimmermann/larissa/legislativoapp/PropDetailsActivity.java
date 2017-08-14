@@ -82,19 +82,19 @@ public class PropDetailsActivity extends AppCompatActivity {
                         Log.d("MainActivity", "PropListResponse structure received!");
                         final Proposicao prop = respostaServidor.getDados();
 
-                        id.setText("Código: " + prop.getId());
-                        dataApresentacao.setText("Data de Apresentação: " + prop.getDataApresentacao());
-                        siglaTipo.setText("Sigla do Tipo: " + prop.getSiglaTipo());
-                        tipoAutor.setText("Autor: " + prop.getTipoAutor());
-                        descricaoTipo.setText("Tipo: " + prop.getDescricaoTipo());
-                        ementa.setText("Ementa: " + prop.getEmenta().toUpperCase());
-                        keywords.setText("Palavras chave: " + prop.getKeywords().toUpperCase());
-                        descricaoSituacao.setText("Situação: " + prop.getStatusProposicao().getDescricaoSituacao());
-                        dataHora.setText("Data da Última Atualização: " + prop.getStatusProposicao().getDataHora());
-                        siglaOrgao.setText("Órgão: " + prop.getStatusProposicao().getSiglaOrgao());
-                        regime.setText("Regime: " + prop.getStatusProposicao().getRegime());
-                        descricaoTramitacao.setText("Tramitação: " + prop.getStatusProposicao().getDescricaoTramitacao());
-                        despacho.setText("Despacho: " + prop.getStatusProposicao().getDespacho());
+                        id.setText(getString(R.string.propId) + prop.getId());
+                        dataApresentacao.setText(getString(R.string.propDataApresentacao) + prop.getDataApresentacao());
+                        siglaTipo.setText(getString(R.string.propSiglaTipo) + prop.getSiglaTipo());
+                        tipoAutor.setText(getString(R.string.propTipoAutor) + prop.getTipoAutor());
+                        descricaoTipo.setText(getString(R.string.propDescricaoTipo) + prop.getDescricaoTipo());
+                        ementa.setText(getString(R.string.propEmenta) + prop.getEmenta());
+                        keywords.setText(getString(R.string.propKeywords) + prop.getKeywords());
+                        descricaoSituacao.setText(getString(R.string.propDescricaoSituacao) + prop.getStatusProposicao().getDescricaoSituacao());
+                        dataHora.setText(getString(R.string.propDataHora) + prop.getStatusProposicao().getDataHora());
+                        siglaOrgao.setText(getString(R.string.propSiglaOrgao) + prop.getStatusProposicao().getSiglaOrgao());
+                        regime.setText(getString(R.string.propRegime) + prop.getStatusProposicao().getRegime());
+                        descricaoTramitacao.setText(getString(R.string.propDescricaoTramitacao) + prop.getStatusProposicao().getDescricaoTramitacao());
+                        despacho.setText(getString(R.string.propDespacho) + prop.getStatusProposicao().getDespacho());
 
                     } else {
 

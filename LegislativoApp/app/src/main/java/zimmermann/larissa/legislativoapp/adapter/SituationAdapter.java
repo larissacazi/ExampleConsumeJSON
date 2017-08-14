@@ -66,4 +66,5 @@ public class SituationAdapter extends RecyclerView.Adapter<SituationAdapter.Situ
     public long getItemId(int position) {
         return situationList.get(position).getId();
     }
+
 }
