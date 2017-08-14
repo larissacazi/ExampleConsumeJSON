@@ -149,7 +149,11 @@ public class MainActivity extends AppCompatActivity
                             public void onClick(View view, int position) {
                                 if(position < props.size()){
                                     Proposicao prop = props.get(position);
-                                    Toast.makeText(getApplicationContext(), prop.getId() + " is selected!", Toast.LENGTH_SHORT).show();
+	                                Intent intent = new Intent(MainActivity.this, PropDetailsActivity.class);
+	                                Bundle b = new Bundle();
+	                                b.putInt("Id", prop.getId()); //Your id
+	                                intent.putExtras(b); //Put your id to your next Intent
+	                                startActivity(intent);
                                 }
                             }
 
