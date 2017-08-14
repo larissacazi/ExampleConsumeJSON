@@ -28,18 +28,15 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
 
     public static class ProposicaoViewHolder extends RecyclerView.ViewHolder {
         LinearLayout propsLayout;
-        TextView idLabel, anoLabel;
         TextView id, ano;
-        DocumentView ementa;
+        TextView ementa;
 
         public ProposicaoViewHolder(View v) {
             super(v);
             propsLayout = (LinearLayout) v.findViewById(R.id.proposicao_layout);
-            idLabel = (TextView) v.findViewById(R.id.idLabel);
             id = (TextView) v.findViewById(R.id.id);
-            anoLabel = (TextView) v.findViewById(R.id.anoLabel);
             ano = (TextView) v.findViewById(R.id.ano);
-            ementa = (DocumentView) v.findViewById(R.id.ementa);
+            ementa = (TextView) v.findViewById(R.id.ementa);
         }
     }
 
@@ -60,15 +57,9 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
     @Override
     public void onBindViewHolder(final ProposicaoViewHolder holder, final int position) {
 
-        holder.ementa.setText(null);
-        holder.idLabel.setText(null);
-        holder.id.setText(null);
-
         holder.ementa.setText("Ementa: " + props.get(position).getEmenta().toUpperCase());
-        holder.idLabel.setText("Código: ");
-        holder.id.setText(String.valueOf(props.get(position).getId()));
-        holder.anoLabel.setText("Ano: ");
-        holder.ano.setText(String.valueOf(props.get(position).getAno()));
+        holder.id.setText("Código: " + String.valueOf(props.get(position).getId()));
+        holder.ano.setText("Ano: " + String.valueOf(props.get(position).getAno()));
 
     }
 

@@ -29,7 +29,6 @@
                 android:text="@string/propCódigoLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
                 android:textStyle="bold"
                 android:textSize="@dimen/EmentaSize"
                 android:textColor="@color/colorGreyLight" />
@@ -38,7 +37,6 @@
                 android:id="@+id/id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
                 android:textSize="@dimen/EmentaSize"
                 android:textColor="@color/colorGreyLight" />
 
@@ -47,8 +45,7 @@
                 android:text="@string/propAnoLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:textAlignment="gravity"
+                android:paddingLeft="5dp"
                 android:textStyle="bold"
                 android:textSize="@dimen/EmentaSize"
                 android:textColor="@color/colorGreyLight" />
@@ -57,14 +54,20 @@
                 android:id="@+id/ano"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:textAlignment="gravity"
                 android:textSize="@dimen/EmentaSize"
                 android:textColor="@color/colorGreyLight" />
 
         </LinearLayout>
 
-        <com.bluejamesbond.text.DocumentView xmlns:document="http://schemas.android.com/apk/res-auto"
+        <TextView
+            android:id="@+id/ementa"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/EmentaSize"
+            android:layout_gravity="left"/>
+
+        <!--<com.bluejamesbond.text.DocumentView xmlns:document="http://schemas.android.com/apk/res-auto"
             android:id="@+id/ementa"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -75,7 +78,7 @@
             document:documentView_insetPaddingRight="6dp"
             document:paddingStart="1dp"
             document:paddingEnd="1dp"
-            ext:documentView_textFormat="plain"/>
+            ext:documentView_textFormat="plain"/>-->
 
         <!--<com.uncopt.android.widget.text.justify.JustifiedTextView
             android:id="@+id/ementa"
