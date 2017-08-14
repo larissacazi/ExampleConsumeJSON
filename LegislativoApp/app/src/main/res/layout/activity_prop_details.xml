@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusable="true"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    tools:context="zimmermann.larissa.legislativoapp.MainActivity">
+
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
+        android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:id="@+id/dataApresentacao"
+        android:paddingTop="5dp"
+        android:layout_below="@id/id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/siglaTipo"
+        android:paddingTop="5dp"
+        android:layout_below="@id/dataApresentacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tipoAutor"
+        android:paddingTop="5dp"
+        android:layout_below="@id/siglaTipo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/descricaoTipo"
+        android:paddingTop="5dp"
+        android:layout_below="@id/tipoAutor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/ementa"
+        android:paddingTop="5dp"
+        android:layout_below="@id/descricaoTipo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/keywords"
+        android:paddingTop="5dp"
+        android:layout_below="@id/ementa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/descricaoSituacao"
+        android:paddingTop="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
+        android:layout_below="@id/keywords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/dataHora"
+        android:paddingTop="5dp"
+        android:layout_below="@id/descricaoSituacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/siglaOrgao"
+        android:paddingTop="5dp"
+        android:layout_below="@id/dataHora"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/regime"
+        android:paddingTop="5dp"
+        android:layout_below="@id/siglaOrgao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/descricaoTramitacao"
+        android:paddingTop="5dp"
+        android:layout_below="@id/regime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/despacho"
+        android:paddingTop="5dp"
+        android:layout_below="@id/descricaoTramitacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
