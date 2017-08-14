@@ -67,4 +67,13 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
     public int getItemCount() {
         return props.size();
     }
+
+    @Override
+    public long getItemId(int position) {
+        return props.get(position).getId();
+    }
+
+
+
+
 }
