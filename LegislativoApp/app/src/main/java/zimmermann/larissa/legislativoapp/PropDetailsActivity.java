@@ -82,19 +82,19 @@ public class PropDetailsActivity extends AppCompatActivity {
                         Log.d("MainActivity", "PropListResponse structure received!");
                         final Proposicao prop = respostaServidor.getDados();
 
-                        id.setText(getString(R.string.propId) + prop.getId());
-                        dataApresentacao.setText(getString(R.string.propDataApresentacao) + prop.getDataApresentacao());
-                        siglaTipo.setText(getString(R.string.propSiglaTipo) + prop.getSiglaTipo());
-                        tipoAutor.setText(getString(R.string.propTipoAutor) + prop.getTipoAutor());
-                        descricaoTipo.setText(getString(R.string.propDescricaoTipo) + prop.getDescricaoTipo());
-                        ementa.setText(getString(R.string.propEmenta) + prop.getEmenta());
-                        keywords.setText(getString(R.string.propKeywords) + prop.getKeywords());
-                        descricaoSituacao.setText(getString(R.string.propDescricaoSituacao) + prop.getStatusProposicao().getDescricaoSituacao());
-                        dataHora.setText(getString(R.string.propDataHora) + prop.getStatusProposicao().getDataHora());
-                        siglaOrgao.setText(getString(R.string.propSiglaOrgao) + prop.getStatusProposicao().getSiglaOrgao());
-                        regime.setText(getString(R.string.propRegime) + prop.getStatusProposicao().getRegime());
-                        descricaoTramitacao.setText(getString(R.string.propDescricaoTramitacao) + prop.getStatusProposicao().getDescricaoTramitacao());
-                        despacho.setText(getString(R.string.propDespacho) + prop.getStatusProposicao().getDespacho());
+                        setCheckedText(id, getString(R.string.propId), String.valueOf(prop.getId()));
+                        setCheckedText(dataApresentacao, getString(R.string.propDataApresentacao), prop.getDataApresentacao());
+                        setCheckedText(siglaTipo, getString(R.string.propSiglaTipo), prop.getSiglaTipo());
+                        setCheckedText(tipoAutor, getString(R.string.propTipoAutor), prop.getTipoAutor());
+                        setCheckedText(descricaoTipo, getString(R.string.propDescricaoTipo), prop.getDescricaoTipo());
+                        setCheckedText(ementa, getString(R.string.propEmenta), prop.getEmenta());
+                        setCheckedText(keywords, getString(R.string.propKeywords), prop.getKeywords());
+                        setCheckedText(descricaoSituacao, getString(R.string.propDescricaoSituacao), prop.getStatusProposicao().getDescricaoSituacao());
+                        setCheckedText(dataHora, getString(R.string.propDataHora), prop.getStatusProposicao().getDataHora());
+                        setCheckedText(siglaOrgao, getString(R.string.propSiglaOrgao), prop.getStatusProposicao().getSiglaOrgao());
+                        setCheckedText(regime, getString(R.string.propRegime), prop.getStatusProposicao().getRegime());
+                        setCheckedText(descricaoTramitacao, getString(R.string.propDescricaoTramitacao), prop.getStatusProposicao().getDescricaoTramitacao());
+                        setCheckedText(despacho, getString(R.string.propDespacho), prop.getStatusProposicao().getDespacho());
 
                     } else {
 
@@ -116,5 +116,16 @@ public class PropDetailsActivity extends AppCompatActivity {
                 Log.d("MainActivity", "Error OnFailure()");
             }
         });
+    }
+
+    public void setCheckedText(TextView view, String text1, String text2){
+        if(text2 == null || text2.equals(".") || text2.equals("")){
+            view.setPadding(0,0,0,0);
+            view.setHeight(0);
+            view.setText(null);
+        }else{
+            String text = text1 + text2;
+            view.setText(text);
+        }
     }
 }

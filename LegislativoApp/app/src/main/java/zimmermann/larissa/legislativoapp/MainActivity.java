@@ -223,6 +223,9 @@ public class MainActivity extends AppCompatActivity
                         Log.d("MainActivity", "PropListResponse structure received!");
                         final List<Proposicao> props = respostaServidor.getDados();
 
+                        recyclerView.removeOnItemTouchListener(situationTouch);
+                        recyclerView.removeOnItemTouchListener(propTouch);
+
                         propTouch = new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
                             //@Override
                             public void onClick(View view, int position) {
@@ -242,7 +245,6 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
 
-                        recyclerView.removeOnItemTouchListener(situationTouch);
                         recyclerView.addOnItemTouchListener(propTouch);
 
                         ProposicaoAdapter adapter = new ProposicaoAdapter(props, R.layout.list_item_prop2, getApplicationContext());
@@ -288,6 +290,9 @@ public class MainActivity extends AppCompatActivity
                         Log.d("MainActivity", "PropListResponse structure received!");
                         final List<Proposicao> props = respostaServidor.getDados();
 
+                        recyclerView.removeOnItemTouchListener(situationTouch);
+                        recyclerView.removeOnItemTouchListener(propTouch);
+
                         propTouch = new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
                             //@Override
                             public void onClick(View view, int position) {
@@ -307,7 +312,6 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
 
-                        recyclerView.removeOnItemTouchListener(situationTouch);
                         recyclerView.addOnItemTouchListener(propTouch);
 
                         ProposicaoAdapter adapter = new ProposicaoAdapter(props, R.layout.list_item_prop2, getApplicationContext());
