@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -118,6 +119,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public int getCurrentYear() {
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        return year;
+    }
+
     public void loadProps(){
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -129,7 +135,7 @@ public class MainActivity extends AppCompatActivity
         Log.d("MainActivity", "Passou1");
 
        // Call<PropListResponse> call = service.getDefaultProposicaoList();
-        Call<PropListResponse> call = service.getProposicaoListByYear(2017);
+        Call<PropListResponse> call = service.getProposicaoListByYear(getCurrentYear());
 
         call.enqueue(new Callback<PropListResponse>() {
             @Override
