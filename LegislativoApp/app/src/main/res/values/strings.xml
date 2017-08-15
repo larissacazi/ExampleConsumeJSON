@@ -9,14 +9,14 @@
     <string name="propCódigoLabel">Código:\u0020</string>
     <string name="propAnoLabel">Ano:\u0020</string>
     <string name="propId">Código:\u0020</string>
-    <string name="propDataApresentacao">Data de Apresentação:\u0020</string>
+    <string name="propDataApresentacao">Apresentação:\u0020</string>
     <string name="propSiglaTipo">Sigla do Tipo:\u0020</string>
     <string name="propDescricaoTipo">Tipo:\u0020</string>
     <string name="propTipoAutor">Autor:\u0020</string>
     <string name="propEmenta">Ementa:\u0020</string>
     <string name="propKeywords">Palavras-Chave:\u0020</string>
     <string name="propDescricaoSituacao">Situação:\u0020</string>
-    <string name="propDataHora">Data da Última Atualização:\u0020</string>
+    <string name="propDataHora">Última Atualização:\u0020</string>
     <string name="propSiglaOrgao">Órgão:\u0020</string>
     <string name="propRegime">Regime:\u0020</string>
     <string name="propDescricaoTramitacao">Tramitação:\u0020</string>

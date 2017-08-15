@@ -1,28 +1,24 @@
 package zimmermann.larissa.legislativoapp;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import zimmermann.larissa.legislativoapp.adapter.ProposicaoAdapter;
-import zimmermann.larissa.legislativoapp.communication.PropListResponse;
+import zimmermann.larissa.legislativoapp.adapter.StringAdapter;
 import zimmermann.larissa.legislativoapp.communication.PropResponse;
 import zimmermann.larissa.legislativoapp.communication.Proposicao;
-import zimmermann.larissa.legislativoapp.recycler.ClickListener;
-import zimmermann.larissa.legislativoapp.recycler.DividerItemDecoration;
-import zimmermann.larissa.legislativoapp.recycler.RecyclerTouchListener;
 import zimmermann.larissa.legislativoapp.service.RetrofitService;
 import zimmermann.larissa.legislativoapp.service.ServiceGenerator;
 
@@ -43,22 +39,6 @@ public class PropDetailsActivity extends AppCompatActivity {
     }
 
     public void loadPropById(int codigo) {
-        final TextView id, dataApresentacao, siglaTipo, tipoAutor, descricaoTipo, ementa, keywords;
-        final TextView descricaoSituacao, dataHora, siglaOrgao, regime, descricaoTramitacao, despacho;
-
-        id = (TextView) this.findViewById(R.id.id);
-        dataApresentacao = (TextView) this.findViewById(R.id.dataApresentacao);
-        siglaTipo = (TextView) this.findViewById(R.id.siglaTipo);
-        tipoAutor = (TextView) this.findViewById(R.id.tipoAutor);
-        descricaoTipo = (TextView) this.findViewById(R.id.descricaoTipo);
-        ementa = (TextView) this.findViewById(R.id.ementa);
-        keywords = (TextView) this.findViewById(R.id.keywords);
-        descricaoSituacao = (TextView) this.findViewById(R.id.descricaoSituacao);
-        dataHora = (TextView) this.findViewById(R.id.dataHora);
-        siglaOrgao = (TextView) this.findViewById(R.id.siglaOrgao);
-        regime = (TextView) this.findViewById(R.id.regime);
-        descricaoTramitacao = (TextView) this.findViewById(R.id.descricaoTramitacao);
-        despacho = (TextView) this.findViewById(R.id.despacho);
 
         //Call first time
         RetrofitService service = ServiceGenerator.getClient().create(RetrofitService.class);
@@ -66,6 +46,9 @@ public class PropDetailsActivity extends AppCompatActivity {
         Log.d("MainActivity", "Passou1");
 
         Call<PropResponse> call = service.getProposicaoById(codigo);
+
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.prop_detail_recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         call.enqueue(new Callback<PropResponse>() {
             @Override
@@ -82,19 +65,24 @@ public class PropDetailsActivity extends AppCompatActivity {
                         Log.d("MainActivity", "PropListResponse structure received!");
                         final Proposicao prop = respostaServidor.getDados();
 
-                        setCheckedText(id, getString(R.string.propId), String.valueOf(prop.getId()));
-                        setCheckedText(dataApresentacao, getString(R.string.propDataApresentacao), prop.getDataApresentacao());
-                        setCheckedText(siglaTipo, getString(R.string.propSiglaTipo), prop.getSiglaTipo());
-                        setCheckedText(tipoAutor, getString(R.string.propTipoAutor), prop.getTipoAutor());
-                        setCheckedText(descricaoTipo, getString(R.string.propDescricaoTipo), prop.getDescricaoTipo());
-                        setCheckedText(ementa, getString(R.string.propEmenta), prop.getEmenta());
-                        setCheckedText(keywords, getString(R.string.propKeywords), prop.getKeywords());
-                        setCheckedText(descricaoSituacao, getString(R.string.propDescricaoSituacao), prop.getStatusProposicao().getDescricaoSituacao());
-                        setCheckedText(dataHora, getString(R.string.propDataHora), prop.getStatusProposicao().getDataHora());
-                        setCheckedText(siglaOrgao, getString(R.string.propSiglaOrgao), prop.getStatusProposicao().getSiglaOrgao());
-                        setCheckedText(regime, getString(R.string.propRegime), prop.getStatusProposicao().getRegime());
-                        setCheckedText(descricaoTramitacao, getString(R.string.propDescricaoTramitacao), prop.getStatusProposicao().getDescricaoTramitacao());
-                        setCheckedText(despacho, getString(R.string.propDespacho), prop.getStatusProposicao().getDespacho());
+                        List<SpannableStringBuilder> dataList = new ArrayList<SpannableStringBuilder>();
+
+                        addCheckedText(dataList, getString(R.string.propId), String.valueOf(prop.getId()));
+                        addCheckedText(dataList, getString(R.string.propDataApresentacao), prop.getDataApresentacao());
+                        addCheckedText(dataList, getString(R.string.propDataHora), prop.getStatusProposicao().getDataHora());
+                        addCheckedText(dataList, getString(R.string.propTipoAutor), prop.getTipoAutor());
+                        addCheckedText(dataList, getString(R.string.propDescricaoSituacao), prop.getStatusProposicao().getDescricaoSituacao());
+                        addCheckedText(dataList, getString(R.string.propDescricaoTipo), prop.getDescricaoTipo());
+                        addCheckedText(dataList, getString(R.string.propSiglaTipo), prop.getSiglaTipo());
+                        addCheckedText(dataList, getString(R.string.propEmenta), prop.getEmenta());
+                        addCheckedText(dataList, getString(R.string.propKeywords), prop.getKeywords());
+                        addCheckedText(dataList, getString(R.string.propSiglaOrgao), prop.getStatusProposicao().getSiglaOrgao());
+                        addCheckedText(dataList, getString(R.string.propRegime), prop.getStatusProposicao().getRegime());
+                        addCheckedText(dataList, getString(R.string.propDescricaoTramitacao), prop.getStatusProposicao().getDescricaoTramitacao());
+                        addCheckedText(dataList, getString(R.string.propDespacho), prop.getStatusProposicao().getDespacho());
+
+                        StringAdapter adapter = new StringAdapter(dataList, R.layout.recycler_prop_details);
+                        recyclerView.setAdapter(adapter);
 
                     } else {
 
@@ -118,14 +106,13 @@ public class PropDetailsActivity extends AppCompatActivity {
         });
     }
 
-    public void setCheckedText(TextView view, String text1, String text2){
+    public void addCheckedText(List<SpannableStringBuilder> view, String text1, String text2){
         if(text2 == null || text2.equals(".") || text2.equals("")){
-            view.setPadding(0,0,0,0);
-            view.setHeight(0);
-            view.setText(null);
+            return;
         }else{
-            String text = text1 + text2;
-            view.setText(text);
+            SpannableStringBuilder str = new SpannableStringBuilder(text1 + text2);
+            str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, text1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            view.add(str);
         }
     }
 }

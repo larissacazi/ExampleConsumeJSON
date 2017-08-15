@@ -1,10 +1,14 @@
 package zimmermann.larissa.legislativoapp.adapter;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,7 +30,8 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
     private Context context;
 
 
-    public static class ProposicaoViewHolder extends RecyclerView.ViewHolder {
+    public static class ProposicaoViewHolder extends RecyclerView.ViewHolder{
+
         LinearLayout propsLayout;
         TextView id, ano;
         TextView ementa;
@@ -39,6 +44,7 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
             ementa = (TextView) v.findViewById(R.id.ementa);
         }
     }
+
 
     public ProposicaoAdapter(List<Proposicao> props, int rowLayout, Context context) {
         this.props = props;
@@ -72,4 +78,5 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
     public long getItemId(int position) {
         return props.get(position).getId();
     }
+
 }
