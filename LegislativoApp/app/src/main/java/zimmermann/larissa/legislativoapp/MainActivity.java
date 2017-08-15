@@ -1,7 +1,9 @@
 package zimmermann.larissa.legislativoapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -105,7 +108,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(), "Situacao das Proposicoes pressionado!", Toast.LENGTH_SHORT).show();
             loadSituationPropsList();
         } else if (id == R.id.nav_prop_ano) {
-
+            showYearDialog();
         } else if (id == R.id.nav_tutorial) {
 
         } else if (id == R.id.nav_share) {
@@ -119,12 +122,64 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public int getCurrentYear() {
+    private int getCurrentYear() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         return year;
     }
 
-    public void loadProps(){
+    private void showYearDialog() {
+        int currentYear = getCurrentYear();
+
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
+        builderSingle.setIcon(R.drawable.calendar3);
+        builderSingle.setTitle("Escolha o ano:");
+
+        final ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(MainActivity.this, android.R.layout.select_dialog_item);
+        for(int i = 0; i<100; i++) {
+            arrayAdapter.add(currentYear - i);
+        }
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Integer year = arrayAdapter.getItem(which);
+                Toast.makeText(getApplicationContext(), "Year: " + year.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        builderSingle.show();
+
+    }
+
+    private void showPropsSituationDialog(final ArrayAdapter<String> arrayAdapter) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
+        builderSingle.setIcon(R.drawable.situacao);
+        builderSingle.setTitle("Escolha a Situação da Proposição:");
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String situation = arrayAdapter.getItem(which);
+                Toast.makeText(getApplicationContext(), "Situation: " + situation, Toast.LENGTH_SHORT).show();
+            }
+        });
+        builderSingle.show();
+    }
+
+    private void loadProps(){
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -199,7 +254,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public void loadSituationPropsList(){
+    private void loadSituationPropsList(){
         //final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.situation_props_recyclerview);
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -221,30 +276,13 @@ public class MainActivity extends AppCompatActivity
 
                     //verifica aqui se o corpo da resposta não é nulo
                     if (respostaServidor != null) {
-                        Log.d("MainActivity", "PropListResponse: structure received!");
                         final List<Situation> situationList = respostaServidor.getDados();
 
-                        situationTouch = new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
-                            //@Override
-                            public void onClick(View view, int position) {
-                                if(position < situationList.size()) {
-                                    Situation situation = situationList.get(position);
-                                    Toast.makeText(getApplicationContext(), situation.getId() + " is selected!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            //@Override
-                            public void onLongClick(View view, int position) {
-
-                            }
-                        });
-
-                        recyclerView.removeOnItemTouchListener(propTouch);
-                        recyclerView.addOnItemTouchListener(situationTouch);
-
-                        SituationAdapter adapter = new SituationAdapter(situationList, R.layout.situation_prop_list, getApplicationContext());
-                        recyclerView.setAdapter(adapter);
-
+                        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.select_dialog_item);
+                        for(int i = 0; i<situationList.size(); i++) {
+                            arrayAdapter.add(situationList.get(i).getNome());
+                        }
+                        showPropsSituationDialog(arrayAdapter);
                     } else {
 
                         Toast.makeText(getApplicationContext(), "Resposta nula do servidor", Toast.LENGTH_SHORT).show();
