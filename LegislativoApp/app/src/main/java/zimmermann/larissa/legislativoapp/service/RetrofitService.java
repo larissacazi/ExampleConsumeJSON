@@ -26,4 +26,7 @@ public interface RetrofitService {
     @GET("referencias/situacoesProposicao")
     Call<SituationListResponse> getAllPropSituation();
 
+    @GET("proposicoes")
+    Call<PropListResponse> getProposicaoListBySituationId(@Query("idSituacao") int id);
+
 }

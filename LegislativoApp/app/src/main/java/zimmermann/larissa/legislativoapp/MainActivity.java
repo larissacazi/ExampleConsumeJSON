@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -41,7 +42,8 @@ import zimmermann.larissa.legislativoapp.service.ServiceGenerator;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    RecyclerTouchListener propTouch, situationTouch;
+    private final int initialYear = 1934; //Everything starts in 1934
+    private RecyclerTouchListener propTouch, situationTouch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
 
-        loadProps();
+        loadProps(getCurrentYear());
     }
 
     @Override
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_prop) {
-            loadProps();
+            loadProps(getCurrentYear());
         } else if (id == R.id.nav_prop_situacao) {
             Toast.makeText(getApplicationContext(), "Situacao das Proposicoes pressionado!", Toast.LENGTH_SHORT).show();
             loadSituationPropsList();
@@ -127,6 +129,17 @@ public class MainActivity extends AppCompatActivity
         return year;
     }
 
+    private int findSituationId(final List<Situation> situationList, String situation) {
+        int i = 0;
+
+        for(i=0; i<situationList.size(); i++) {
+            if(situationList.get(i).getNome().compareTo(situation) == 0) {
+                return situationList.get(i).getId();
+            }
+        }
+        return -1;
+    }
+
     private void showYearDialog() {
         int currentYear = getCurrentYear();
 
@@ -135,7 +148,7 @@ public class MainActivity extends AppCompatActivity
         builderSingle.setTitle("Escolha o ano:");
 
         final ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(MainActivity.this, android.R.layout.select_dialog_item);
-        for(int i = 0; i<100; i++) {
+        for(int i = 0; i<currentYear - initialYear + 1; i++) {
             arrayAdapter.add(currentYear - i);
         }
 
@@ -151,13 +164,14 @@ public class MainActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
                 Integer year = arrayAdapter.getItem(which);
                 Toast.makeText(getApplicationContext(), "Year: " + year.toString(), Toast.LENGTH_SHORT).show();
+                loadProps(year.intValue());
             }
         });
         builderSingle.show();
 
     }
 
-    private void showPropsSituationDialog(final ArrayAdapter<String> arrayAdapter) {
+    private void showPropsSituationDialog(final ArrayAdapter<String> arrayAdapter, final List<Situation> situationList) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
         builderSingle.setIcon(R.drawable.situacao);
         builderSingle.setTitle("Escolha a Situação da Proposição:");
@@ -173,13 +187,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String situation = arrayAdapter.getItem(which);
-                Toast.makeText(getApplicationContext(), "Situation: " + situation, Toast.LENGTH_SHORT).show();
+                int idx = findSituationId(situationList, situation);
+                Toast.makeText(getApplicationContext(), "Situation: " + situation + "ID: " + Integer.toString(idx), Toast.LENGTH_SHORT).show();
+                loadPropsBySituationId(idx);
             }
         });
         builderSingle.show();
     }
 
-    private void loadProps(){
+    private void loadProps(int year){
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -190,7 +206,7 @@ public class MainActivity extends AppCompatActivity
         Log.d("MainActivity", "Passou1");
 
        // Call<PropListResponse> call = service.getDefaultProposicaoList();
-        Call<PropListResponse> call = service.getProposicaoListByYear(getCurrentYear());
+        Call<PropListResponse> call = service.getProposicaoListByYear(year);
 
         call.enqueue(new Callback<PropListResponse>() {
             @Override
@@ -233,12 +249,10 @@ public class MainActivity extends AppCompatActivity
                         recyclerView.setAdapter(adapter);
 
                     } else {
-
                         Toast.makeText(getApplicationContext(), "Resposta nula do servidor", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
-
                     Toast.makeText(getApplicationContext(), "Resposta não foi sucesso", Toast.LENGTH_SHORT).show();
                     // segura os erros de requisição
                     ResponseBody errorBody = response.errorBody();
@@ -247,7 +261,71 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<PropListResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Erro na chamada ao servidor", Toast.LENGTH_SHORT).show();
+                Log.d("MainActivity", "Error OnFailure()");
+            }
+        });
+    }
 
+    private void loadPropsBySituationId(int idx){
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //Call first time
+        RetrofitService service = ServiceGenerator.getClient().create(RetrofitService.class);
+        // Call<PropListResponse> call = service.getDefaultProposicaoList();
+        Call<PropListResponse> call = service.getProposicaoListBySituationId(idx);
+
+        call.enqueue(new Callback<PropListResponse>() {
+            @Override
+            public void onResponse(Call<PropListResponse> call, Response<PropListResponse> response) {
+                if (response.isSuccessful()) {
+                    PropListResponse respostaServidor = response.body();
+
+                    //verifica aqui se o corpo da resposta não é nulo
+                    if (respostaServidor != null) {
+                        Log.d("MainActivity", "PropListResponse structure received!");
+                        final List<Proposicao> props = respostaServidor.getDados();
+
+                        propTouch = new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
+                            //@Override
+                            public void onClick(View view, int position) {
+                                if(position < props.size()){
+                                    Proposicao prop = props.get(position);
+                                    Intent intent = new Intent(MainActivity.this, PropDetailsActivity.class);
+                                    Bundle b = new Bundle();
+                                    b.putInt("Id", prop.getId()); //Your id
+                                    intent.putExtras(b); //Put your id to your next Intent
+                                    startActivity(intent);
+                                }
+                            }
+
+                            //@Override
+                            public void onLongClick(View view, int position) {
+
+                            }
+                        });
+
+                        recyclerView.removeOnItemTouchListener(situationTouch);
+                        recyclerView.addOnItemTouchListener(propTouch);
+
+                        ProposicaoAdapter adapter = new ProposicaoAdapter(props, R.layout.list_item_prop2, getApplicationContext());
+                        recyclerView.setAdapter(adapter);
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Resposta nula do servidor", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Resposta não foi sucesso", Toast.LENGTH_SHORT).show();
+                    // segura os erros de requisição
+                    ResponseBody errorBody = response.errorBody();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PropListResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Erro na chamada ao servidor", Toast.LENGTH_SHORT).show();
                 Log.d("MainActivity", "Error OnFailure()");
             }
@@ -268,21 +346,22 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<SituationListResponse> call, Response<SituationListResponse> response) {
 
-                Log.d("MainActivity", "loadSituationPropsList: Recebeu resposta.");
                 if (response.isSuccessful()) {
-                    Log.d("MainActivity", "loadSituationPropsList: Resposta recebida com sucesso.");
                     SituationListResponse respostaServidor = response.body();
-                    Log.d("MainActivity", "loadSituationPropsListResponse saved!");
-
                     //verifica aqui se o corpo da resposta não é nulo
                     if (respostaServidor != null) {
                         final List<Situation> situationList = respostaServidor.getDados();
-
                         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.select_dialog_item);
                         for(int i = 0; i<situationList.size(); i++) {
                             arrayAdapter.add(situationList.get(i).getNome());
                         }
-                        showPropsSituationDialog(arrayAdapter);
+                        arrayAdapter.sort(new Comparator<String>() {
+                            @Override
+                            public int compare(String arg1, String arg0) {
+                                return arg1.compareTo(arg0);
+                            }
+                        });
+                        showPropsSituationDialog(arrayAdapter, situationList);
                     } else {
 
                         Toast.makeText(getApplicationContext(), "Resposta nula do servidor", Toast.LENGTH_SHORT).show();
@@ -298,7 +377,6 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<SituationListResponse> call, Throwable t) {
-
                 Toast.makeText(getApplicationContext(), "Erro na chamada ao servidor", Toast.LENGTH_SHORT).show();
                 Log.d("MainActivity", "loadSituationPropsList:Error OnFailure()");
             }
