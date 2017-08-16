@@ -27,8 +27,11 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import zimmermann.larissa.legislativoapp.adapter.DeputadoAdapter;
 import zimmermann.larissa.legislativoapp.adapter.ProposicaoAdapter;
 import zimmermann.larissa.legislativoapp.adapter.SituationAdapter;
+import zimmermann.larissa.legislativoapp.communication.Deputado;
+import zimmermann.larissa.legislativoapp.communication.DeputadoListResponse;
 import zimmermann.larissa.legislativoapp.communication.PropListResponse;
 import zimmermann.larissa.legislativoapp.communication.Proposicao;
 import zimmermann.larissa.legislativoapp.communication.Situation;
@@ -111,6 +114,8 @@ public class MainActivity extends AppCompatActivity
             loadSituationPropsList();
         } else if (id == R.id.nav_prop_ano) {
             showYearDialog();
+        } else if (id == R.id.nav_deputados) {
+            loadDeputados();
         } else if (id == R.id.nav_tutorial) {
 
         } else if (id == R.id.nav_share) {
@@ -383,6 +388,58 @@ public class MainActivity extends AppCompatActivity
             public void onFailure(Call<SituationListResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Erro na chamada ao servidor", Toast.LENGTH_SHORT).show();
                 Log.d("MainActivity", "loadSituationPropsList:Error OnFailure()");
+            }
+        });
+    }
+
+    private void loadDeputados() {
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //Call first time
+        RetrofitService service = ServiceGenerator.getClient().create(RetrofitService.class);
+
+        Log.d("MainActivity", "Enter::loadDeputados ");
+        // Call<PropListResponse> call = service.getDefaultProposicaoList();
+        Call<DeputadoListResponse> call = service.getDeputadoList("ASC", "nome");
+
+        Log.d("MainActivity", "Enter::pass info");
+
+        call.enqueue(new Callback<DeputadoListResponse>() {
+            @Override
+            public void onResponse(Call<DeputadoListResponse> call, Response<DeputadoListResponse> response) {
+
+                if (response.isSuccessful()) {
+                    DeputadoListResponse respostaServidor = response.body();
+
+                    Log.d("MainActivity", "Enter::get the list...");
+
+                    //verifica aqui se o corpo da resposta não é nulo
+                    if (respostaServidor != null) {
+                        final List<Deputado> deputados = respostaServidor.getDados();
+
+                        recyclerView.removeOnItemTouchListener(situationTouch);
+                        recyclerView.removeOnItemTouchListener(propTouch);
+                        Log.d("MainActivity", "Enter::adding adapter...");
+                        DeputadoAdapter adapter = new DeputadoAdapter(deputados, R.layout.deputado_list, getApplicationContext());
+                        recyclerView.setAdapter(adapter);
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Resposta nula do servidor", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Resposta não foi sucesso", Toast.LENGTH_SHORT).show();
+                    // segura os erros de requisição
+                    ResponseBody errorBody = response.errorBody();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeputadoListResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Erro na chamada ao servidor", Toast.LENGTH_SHORT).show();
+                Log.d("MainActivity", "Error OnFailure()");
             }
         });
     }

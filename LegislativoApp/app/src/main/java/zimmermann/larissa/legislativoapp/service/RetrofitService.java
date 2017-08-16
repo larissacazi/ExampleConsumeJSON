@@ -4,6 +4,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import zimmermann.larissa.legislativoapp.communication.DeputadoListResponse;
 import zimmermann.larissa.legislativoapp.communication.PropListResponse;
 import zimmermann.larissa.legislativoapp.communication.PropResponse;
 import zimmermann.larissa.legislativoapp.communication.SituationListResponse;
@@ -28,5 +29,8 @@ public interface RetrofitService {
 
     @GET("proposicoes")
     Call<PropListResponse> getProposicaoListBySituationId(@Query("idSituacao") int id);
+
+    @GET("deputados")
+    Call<DeputadoListResponse> getDeputadoList(@Query("ordem") String ordem, @Query("ordenarPor") String ordernarPor);
 
 }
