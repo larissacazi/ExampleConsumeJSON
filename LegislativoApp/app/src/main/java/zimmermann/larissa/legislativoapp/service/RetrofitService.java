@@ -30,7 +30,7 @@ public interface RetrofitService {
     @GET("proposicoes")
     Call<PropListResponse> getProposicaoListBySituationId(@Query("idSituacao") int id);
 
-    @GET("deputados")
-    Call<DeputadoListResponse> getDeputadoList(@Query("ordem") String ordem, @Query("ordenarPor") String ordernarPor);
+    @GET("deputados?ordem=ASC&ordenarPor=nome")
+    Call<DeputadoListResponse> getDeputadoList();
 
 }

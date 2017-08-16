@@ -402,7 +402,7 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("MainActivity", "Enter::loadDeputados ");
         // Call<PropListResponse> call = service.getDefaultProposicaoList();
-        Call<DeputadoListResponse> call = service.getDeputadoList("ASC", "nome");
+        Call<DeputadoListResponse> call = service.getDeputadoList();
 
         Log.d("MainActivity", "Enter::pass info");
 

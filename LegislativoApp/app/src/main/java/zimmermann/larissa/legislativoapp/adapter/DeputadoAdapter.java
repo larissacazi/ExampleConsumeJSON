@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -69,19 +71,7 @@ public class DeputadoAdapter extends RecyclerView.Adapter<DeputadoAdapter.Deputa
     @Override
     public void onBindViewHolder(final DeputadoAdapter.DeputadoViewHolder holder, final int position) {
 
-        URL url = null;
-        try {
-            url = new URL(deputadoList.get(position).getUrlFoto());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Bitmap bmp = null;
-        try {
-            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        holder.fotoDeputado.setImageBitmap(bmp);
+        Picasso.with(this.context).load(deputadoList.get(position).getUrlFoto()).into(holder.fotoDeputado);
 
         Log.d("MainActivity", "Enter::fotoDeputado!");
 
