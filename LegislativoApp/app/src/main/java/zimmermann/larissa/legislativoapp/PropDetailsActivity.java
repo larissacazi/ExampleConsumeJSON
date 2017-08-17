@@ -34,7 +34,6 @@ public class PropDetailsActivity extends AppCompatActivity {
         if (b != null) {
             value = b.getInt("Id");
         }
-
         loadPropById(value);
     }
 
