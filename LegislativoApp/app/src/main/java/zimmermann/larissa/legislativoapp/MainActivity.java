@@ -29,7 +29,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import zimmermann.larissa.legislativoapp.adapter.DeputadoAdapter;
 import zimmermann.larissa.legislativoapp.adapter.ProposicaoAdapter;
-import zimmermann.larissa.legislativoapp.adapter.SituationAdapter;
 import zimmermann.larissa.legislativoapp.communication.Deputado;
 import zimmermann.larissa.legislativoapp.communication.DeputadoListResponse;
 import zimmermann.larissa.legislativoapp.communication.PropListResponse;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private final int initialYear = 1934; //Everything starts in 1934
-    private RecyclerTouchListener propTouch, situationTouch;
+    private RecyclerTouchListener propTouch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
 
-        loadProps(getCurrentYear());
+        loadPropsByYear(getCurrentYear());
     }
 
     @Override
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_prop) {
-            loadProps(getCurrentYear());
+            loadPropsByYear(getCurrentYear());
         } else if (id == R.id.nav_prop_situacao) {
             Toast.makeText(getApplicationContext(), "Situacao das Proposicoes pressionado!", Toast.LENGTH_SHORT).show();
             loadSituationPropsList();
@@ -169,7 +168,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
                 Integer year = arrayAdapter.getItem(which);
                 Toast.makeText(getApplicationContext(), "Year: " + year.toString(), Toast.LENGTH_SHORT).show();
-                loadProps(year.intValue());
+                loadPropsByYear(year.intValue());
             }
         });
         builderSingle.show();
@@ -200,89 +199,28 @@ public class MainActivity extends AppCompatActivity
         builderSingle.show();
     }
 
-    private void loadProps(int year){
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    private void loadPropsByYear(int year){
 
-        //Call first time
         RetrofitService service = ServiceGenerator.getClient().create(RetrofitService.class);
-
-        Log.d("MainActivity", "Passou1");
-
-       // Call<PropListResponse> call = service.getDefaultProposicaoList();
         Call<PropListResponse> call = service.getProposicaoListByYear(year);
 
-        call.enqueue(new Callback<PropListResponse>() {
-            @Override
-            public void onResponse(Call<PropListResponse> call, Response<PropListResponse> response) {
+        loadProps(call);
 
-                Log.d("MainActivity", "Recebeu resposta.");
-                if (response.isSuccessful()) {
-                    Log.d("MainActivity", "Resposta recebida com sucesso.");
-                    PropListResponse respostaServidor = response.body();
-                    Log.d("MainActivity", "Response saved!");
-
-                    //verifica aqui se o corpo da resposta não é nulo
-                    if (respostaServidor != null) {
-                        Log.d("MainActivity", "PropListResponse structure received!");
-                        final List<Proposicao> props = respostaServidor.getDados();
-
-                        recyclerView.removeOnItemTouchListener(situationTouch);
-                        recyclerView.removeOnItemTouchListener(propTouch);
-
-                        propTouch = new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
-                            //@Override
-                            public void onClick(View view, int position) {
-                                if(position < props.size()){
-                                    Proposicao prop = props.get(position);
-                                    Intent intent = new Intent(MainActivity.this, PropDetailsActivity.class);
-                                    Bundle b = new Bundle();
-                                    b.putInt("Id", prop.getId()); //Your id
-                                    intent.putExtras(b); //Put your id to your next Intent
-                                    startActivity(intent);
-                                }
-                            }
-
-                            //@Override
-                            public void onLongClick(View view, int position) {
-
-                            }
-                        });
-
-                        recyclerView.addOnItemTouchListener(propTouch);
-
-                        ProposicaoAdapter adapter = new ProposicaoAdapter(props, R.layout.list_item_prop2, getApplicationContext());
-                        recyclerView.setAdapter(adapter);
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Resposta nula do servidor", Toast.LENGTH_SHORT).show();
-                    }
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Resposta não foi sucesso", Toast.LENGTH_SHORT).show();
-                    // segura os erros de requisição
-                    ResponseBody errorBody = response.errorBody();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PropListResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Erro na chamada ao servidor", Toast.LENGTH_SHORT).show();
-                Log.d("MainActivity", "Error OnFailure()");
-            }
-        });
     }
 
     private void loadPropsBySituationId(int idx){
+
+        RetrofitService service = ServiceGenerator.getClient().create(RetrofitService.class);
+        Call<PropListResponse> call = service.getProposicaoListBySituationId(idx);
+
+        loadProps(call);
+
+    }
+
+    private void loadProps(Call<PropListResponse> call){
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        //Call first time
-        RetrofitService service = ServiceGenerator.getClient().create(RetrofitService.class);
-        // Call<PropListResponse> call = service.getDefaultProposicaoList();
-        Call<PropListResponse> call = service.getProposicaoListBySituationId(idx);
 
         call.enqueue(new Callback<PropListResponse>() {
             @Override
@@ -295,31 +233,13 @@ public class MainActivity extends AppCompatActivity
                         Log.d("MainActivity", "PropListResponse structure received!");
                         final List<Proposicao> props = respostaServidor.getDados();
 
-                        recyclerView.removeOnItemTouchListener(situationTouch);
                         recyclerView.removeOnItemTouchListener(propTouch);
 
-                        propTouch = new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
-                            //@Override
-                            public void onClick(View view, int position) {
-                                if(position < props.size()){
-                                    Proposicao prop = props.get(position);
-                                    Intent intent = new Intent(MainActivity.this, PropDetailsActivity.class);
-                                    Bundle b = new Bundle();
-                                    b.putInt("Id", prop.getId()); //Your id
-                                    intent.putExtras(b); //Put your id to your next Intent
-                                    startActivity(intent);
-                                }
-                            }
-
-                            //@Override
-                            public void onLongClick(View view, int position) {
-
-                            }
-                        });
+                        setPropTouchListener(props, recyclerView);
 
                         recyclerView.addOnItemTouchListener(propTouch);
 
-                        ProposicaoAdapter adapter = new ProposicaoAdapter(props, R.layout.list_item_prop2, getApplicationContext());
+                        ProposicaoAdapter adapter = new ProposicaoAdapter(props, R.layout.list_item_prop, getApplicationContext());
                         recyclerView.setAdapter(adapter);
 
                     } else {
@@ -419,10 +339,9 @@ public class MainActivity extends AppCompatActivity
                     if (respostaServidor != null) {
                         final List<Deputado> deputados = respostaServidor.getDados();
 
-                        recyclerView.removeOnItemTouchListener(situationTouch);
                         recyclerView.removeOnItemTouchListener(propTouch);
                         Log.d("MainActivity", "Enter::adding adapter...");
-                        DeputadoAdapter adapter = new DeputadoAdapter(deputados, R.layout.deputado_list, getApplicationContext());
+                        DeputadoAdapter adapter = new DeputadoAdapter(deputados, R.layout.list_deputado, getApplicationContext());
                         recyclerView.setAdapter(adapter);
 
                     } else {
@@ -440,6 +359,27 @@ public class MainActivity extends AppCompatActivity
             public void onFailure(Call<DeputadoListResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Erro na chamada ao servidor", Toast.LENGTH_SHORT).show();
                 Log.d("MainActivity", "Error OnFailure()");
+            }
+        });
+    }
+
+    private void setPropTouchListener(final List<Proposicao> props, final RecyclerView recyclerView){
+        propTouch = new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
+            //@Override
+            public void onClick(View view, int position) {
+                if(position < props.size()){
+                    Proposicao prop = props.get(position);
+                    Intent intent = new Intent(MainActivity.this, PropDetailsActivity.class);
+                    Bundle b = new Bundle();
+                    b.putInt("Id", prop.getId()); //Your id
+                    intent.putExtras(b); //Put your id to your next Intent
+                    startActivity(intent);
+                }
+            }
+
+            //@Override
+            public void onLongClick(View view, int position) {
+
             }
         });
     }

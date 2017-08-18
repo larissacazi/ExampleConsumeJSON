@@ -21,8 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity android:name=".PropDetailsActivity"></activity>
-        <activity android:name=".SituationPropListMainActivity"></activity>
+        <activity
+            android:name=".PropDetailsActivity"
+            android:label="@string/title_activity_prop_details2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

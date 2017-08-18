@@ -38,7 +38,7 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
 
         public ProposicaoViewHolder(View v) {
             super(v);
-            propsLayout = (LinearLayout) v.findViewById(R.id.proposicao_layout);
+
             id = (TextView) v.findViewById(R.id.id);
             ano = (TextView) v.findViewById(R.id.ano);
             ementa = (TextView) v.findViewById(R.id.ementa);
@@ -59,13 +59,12 @@ public class ProposicaoAdapter extends RecyclerView.Adapter<ProposicaoAdapter.Pr
         return holder;
     }
 
-
     @Override
     public void onBindViewHolder(final ProposicaoViewHolder holder, final int position) {
 
-        holder.ementa.setText("Ementa: " + props.get(position).getEmenta());
-        holder.id.setText("Código: " + String.valueOf(props.get(position).getId()));
-        holder.ano.setText("Ano: " + String.valueOf(props.get(position).getAno()));
+        holder.ementa.setText(context.getString(R.string.propListEmenta) + props.get(position).getEmenta());
+        holder.id.setText(context.getString(R.string.propListCodigo) + String.valueOf(props.get(position).getId()));
+        holder.ano.setText(context.getString(R.string.propListAno) + String.valueOf(props.get(position).getAno()));
 
     }
 

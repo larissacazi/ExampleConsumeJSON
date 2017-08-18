@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:focusable="true"
-    android:paddingTop="3dp"
+    android:paddingTop="6dp"
     android:paddingBottom="3dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"

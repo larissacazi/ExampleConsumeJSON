@@ -22,4 +22,17 @@
     <string name="propDescricaoTramitacao">Tramitação:\u0020</string>
     <string name="propDespacho">Despacho:\u0020</string>
 
+    <string name="propListCodigo">Código:\u0020</string>
+    <string name="propListEmenta">Ementa:\u0020</string>
+    <string name="propListAno">Ano:\u0020</string>
+
+    <string name="depListNome">Nome:\u0020</string>
+    <string name="depListPartido">Partido:\u0020</string>
+    <string name="depListUF">UF:\u0020</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_prop_details2">PropDetails2Activity</string>
+
+    <string name="prop_details_title">Proposição</string>
+
+
 </resources>

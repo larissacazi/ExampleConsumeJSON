@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
@@ -28,6 +29,11 @@ public class PropDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prop_details);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.prop_toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Bundle b = getIntent().getExtras();
         int value = -1; // or other values
@@ -35,6 +41,12 @@ public class PropDetailsActivity extends AppCompatActivity {
             value = b.getInt("Id");
         }
         loadPropById(value);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     public void loadPropById(int codigo) {
@@ -80,7 +92,7 @@ public class PropDetailsActivity extends AppCompatActivity {
                         addCheckedText(dataList, getString(R.string.propDescricaoTramitacao), prop.getStatusProposicao().getDescricaoTramitacao());
                         addCheckedText(dataList, getString(R.string.propDespacho), prop.getStatusProposicao().getDespacho());
 
-                        StringAdapter adapter = new StringAdapter(dataList, R.layout.recycler_prop_details);
+                        StringAdapter adapter = new StringAdapter(dataList, R.layout.list_string);
                         recyclerView.setAdapter(adapter);
 
                     } else {
@@ -114,4 +126,5 @@ public class PropDetailsActivity extends AppCompatActivity {
             view.add(str);
         }
     }
+
 }

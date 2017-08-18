@@ -71,13 +71,13 @@ public class DeputadoAdapter extends RecyclerView.Adapter<DeputadoAdapter.Deputa
     @Override
     public void onBindViewHolder(final DeputadoAdapter.DeputadoViewHolder holder, final int position) {
 
+        holder.nomeDeputado.setText(context.getString(R.string.depListNome) + deputadoList.get(position).getNome());
+        holder.partidoDeputado.setText(context.getString(R.string.depListPartido) + deputadoList.get(position).getSiglaPartido());
+        holder.ufDeputado.setText(context.getString(R.string.depListUF) + deputadoList.get(position).getSiglaUf());
+
         Picasso.with(this.context).load(deputadoList.get(position).getUrlFoto()).into(holder.fotoDeputado);
 
         Log.d("MainActivity", "Enter::fotoDeputado!");
-
-        holder.nomeDeputado.setText("Nome:  " + deputadoList.get(position).getNome());
-        holder.partidoDeputado.setText("Partido:    " + deputadoList.get(position).getSiglaPartido());
-        holder.ufDeputado.setText("UF:    " + deputadoList.get(position).getSiglaUf());
     }
 
     @Override
