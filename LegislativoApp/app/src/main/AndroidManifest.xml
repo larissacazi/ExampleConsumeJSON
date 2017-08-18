@@ -25,6 +25,10 @@
             android:name=".PropDetailsActivity"
             android:label="@string/title_activity_prop_details2"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".DevelopersActivity"
+            android:label="@string/developers_title"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
