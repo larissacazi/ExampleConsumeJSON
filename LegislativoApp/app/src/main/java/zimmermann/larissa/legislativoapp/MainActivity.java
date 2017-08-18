@@ -1,8 +1,11 @@
 package zimmermann.larissa.legislativoapp;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -36,6 +40,7 @@ import zimmermann.larissa.legislativoapp.communication.PropListResponse;
 import zimmermann.larissa.legislativoapp.communication.Proposicao;
 import zimmermann.larissa.legislativoapp.communication.Situation;
 import zimmermann.larissa.legislativoapp.communication.SituationListResponse;
+import zimmermann.larissa.legislativoapp.fragments.DevelopersFragment;
 import zimmermann.larissa.legislativoapp.recycler.ClickListener;
 import zimmermann.larissa.legislativoapp.recycler.DividerItemDecoration;
 import zimmermann.larissa.legislativoapp.recycler.RecyclerTouchListener;
@@ -121,7 +126,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_about) {
-
+            Log.d("MainActivity", "Mundando o fragment...");
+            DevelopersFragment devFragment = new DevelopersFragment();
+            loadFragment(devFragment, "developersFragmente");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -143,6 +150,23 @@ public class MainActivity extends AppCompatActivity
             }
         }
         return -1;
+    }
+
+    public void loadFragment(Fragment frag, String tag) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        Fragment fragment = fm.findFragmentById(R.id.developers_list_layout);
+        if(fragment == null)
+        {
+            ft.add(R.id.developers_list_layout, frag, tag);
+        } else
+        {
+            ft.replace(R.id.developers_list_layout, frag, tag);
+        }
+        ft.addToBackStack(null);
+
+        ft.commit();
     }
 
     private void showYearDialog() {
@@ -272,6 +296,17 @@ public class MainActivity extends AppCompatActivity
                 Log.d("MainActivity", "Error OnFailure()");
             }
         });
+    }
+
+    private void loadDevelopersInformation(){
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        recyclerView.removeOnItemTouchListener(situationTouch);
+        recyclerView.removeOnItemTouchListener(propTouch);
+
+        setContentView(R.layout.developers_list);
     }
 
     private void loadPropsBySituationId(int idx){
