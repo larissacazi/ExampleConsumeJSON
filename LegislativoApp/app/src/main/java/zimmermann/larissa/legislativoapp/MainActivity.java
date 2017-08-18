@@ -313,6 +313,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadDeputados() {
+
+
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
