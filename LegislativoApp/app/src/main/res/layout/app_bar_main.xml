@@ -21,18 +21,84 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/content_main"
+        android:id="@+id/include" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/addFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:layout_margin="@dimen/fab_margin"
         android:tint="@color/colorGreyVeryLight"
         app:backgroundTint="@color/colorPrimary"
         app:rippleColor="@color/colorGreyLight"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <LinearLayout
+        android:id="@+id/rightLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="100dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        android:visibility="invisible" >
+
+        <TextView
+            android:id="@+id/rightTextView"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Próxima Página" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/rightFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/arrow_forward" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/leftLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="160dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        android:visibility="invisible" >
+
+        <TextView
+            android:id="@+id/leftTextView"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Página Anterior" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/leftFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/arrow_back" />
+
+    </LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

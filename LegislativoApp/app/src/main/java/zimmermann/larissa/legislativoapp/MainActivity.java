@@ -18,7 +18,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private final int initialYear = 1934; //Everything starts in 1934
+    private static boolean fabPressed =  false;
     private RecyclerTouchListener propTouch;
 
     @Override
@@ -56,12 +60,65 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton rightFab = (FloatingActionButton) findViewById(R.id.rightFab);
+        FloatingActionButton leftFab = (FloatingActionButton) findViewById(R.id.leftFab);
+        final FloatingActionButton addFab = (FloatingActionButton) findViewById(R.id.addFab);
+
+        final LinearLayout rightLayout = (LinearLayout)findViewById(R.id.rightLayout);
+        final LinearLayout leftLayout = (LinearLayout)findViewById(R.id.leftLayout);
+
+        final Animation showButton = AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_button);
+        final Animation hideButton = AnimationUtils.loadAnimation(MainActivity.this, R.anim.hide_button);
+
+        final Animation showLayout = AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_layout);
+        final Animation hideLayout = AnimationUtils.loadAnimation(MainActivity.this, R.anim.hide_layout);
+
+        addFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if(rightLayout.getVisibility() == View.VISIBLE &&
+                        leftLayout.getVisibility() == View.VISIBLE) {
+                    rightLayout.setVisibility(View.GONE);
+                    leftLayout.setVisibility(View.GONE);
+
+                    rightLayout.startAnimation(hideLayout);
+                    leftLayout.startAnimation(hideLayout);
+
+                    addFab.startAnimation(hideButton);
+                }
+                else {
+                    rightLayout.setVisibility(View.VISIBLE);
+                    leftLayout.setVisibility(View.VISIBLE);
+
+                    rightLayout.startAnimation(showLayout);
+                    leftLayout.startAnimation(showLayout);
+
+                    addFab.startAnimation(showButton);
+                }
+            }
+        });
+
+        leftFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Hide the animation on click
+                rightLayout.setVisibility(View.GONE);
+                leftLayout.setVisibility(View.GONE);
+                rightLayout.startAnimation(hideLayout);
+                leftLayout.startAnimation(hideLayout);
+                addFab.startAnimation(hideButton);
+            }
+        });
+
+        rightFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Hide the animation on click
+                rightLayout.setVisibility(View.GONE);
+                leftLayout.setVisibility(View.GONE);
+                rightLayout.startAnimation(hideLayout);
+                leftLayout.startAnimation(hideLayout);
+                addFab.startAnimation(hideButton);
             }
         });
 
