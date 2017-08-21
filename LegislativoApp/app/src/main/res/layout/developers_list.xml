@@ -109,7 +109,7 @@
                 android:layout_alignParentRight="true"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
-                android:text="gm.1997@hotmail.com"
+                android:text="gms.1997@hotmail.com"
                 android:textColor="@color/colorBlack" />
 
         </LinearLayout>
