@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,8 +22,11 @@ import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.Calendar;
 import java.util.Comparator;
@@ -60,65 +64,26 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton rightFab = (FloatingActionButton) findViewById(R.id.rightFab);
-        FloatingActionButton leftFab = (FloatingActionButton) findViewById(R.id.leftFab);
-        final FloatingActionButton addFab = (FloatingActionButton) findViewById(R.id.addFab);
-
-        final LinearLayout rightLayout = (LinearLayout)findViewById(R.id.rightLayout);
-        final LinearLayout leftLayout = (LinearLayout)findViewById(R.id.leftLayout);
-
-        final Animation showButton = AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_button);
-        final Animation hideButton = AnimationUtils.loadAnimation(MainActivity.this, R.anim.hide_button);
-
-        final Animation showLayout = AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_layout);
-        final Animation hideLayout = AnimationUtils.loadAnimation(MainActivity.this, R.anim.hide_layout);
-
-        addFab.setOnClickListener(new View.OnClickListener() {
+        final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
+        frameLayout.getBackground().setAlpha(0);
+        final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
+        fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
-            public void onClick(View view) {
-                if(rightLayout.getVisibility() == View.VISIBLE &&
-                        leftLayout.getVisibility() == View.VISIBLE) {
-                    rightLayout.setVisibility(View.GONE);
-                    leftLayout.setVisibility(View.GONE);
-
-                    rightLayout.startAnimation(hideLayout);
-                    leftLayout.startAnimation(hideLayout);
-
-                    addFab.startAnimation(hideButton);
-                }
-                else {
-                    rightLayout.setVisibility(View.VISIBLE);
-                    leftLayout.setVisibility(View.VISIBLE);
-
-                    rightLayout.startAnimation(showLayout);
-                    leftLayout.startAnimation(showLayout);
-
-                    addFab.startAnimation(showButton);
-                }
+            public void onMenuExpanded() {
+                frameLayout.getBackground().setAlpha(240);
+                frameLayout.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        fabMenu.collapse();
+                        return true;
+                    }
+                });
             }
-        });
 
-        leftFab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //Hide the animation on click
-                rightLayout.setVisibility(View.GONE);
-                leftLayout.setVisibility(View.GONE);
-                rightLayout.startAnimation(hideLayout);
-                leftLayout.startAnimation(hideLayout);
-                addFab.startAnimation(hideButton);
-            }
-        });
-
-        rightFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Hide the animation on click
-                rightLayout.setVisibility(View.GONE);
-                leftLayout.setVisibility(View.GONE);
-                rightLayout.startAnimation(hideLayout);
-                leftLayout.startAnimation(hideLayout);
-                addFab.startAnimation(hideButton);
+            public void onMenuCollapsed() {
+                frameLayout.getBackground().setAlpha(0);
+                frameLayout.setOnTouchListener(null);
             }
         });
 

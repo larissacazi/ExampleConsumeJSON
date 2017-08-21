@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fillAfter="true">
+    android:fillAfter="true" >
 
     <translate
         android:duration="500"
@@ -8,11 +8,12 @@
         android:fromYDelta="0%"
         android:interpolator="@android:anim/linear_interpolator"
         android:toXDelta="0%"
-        android:toYDelta="0%"/>
+        android:toYDelta="0%" />
 
     <alpha
         android:duration="500"
         android:fromAlpha="1.0"
         android:interpolator="@android:anim/decelerate_interpolator"
-        android:toAlpha="0.0"/>
+        android:toAlpha="0.0" />
+
 </set>
