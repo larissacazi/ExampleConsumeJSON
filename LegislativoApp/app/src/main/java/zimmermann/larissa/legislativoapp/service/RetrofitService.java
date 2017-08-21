@@ -33,4 +33,7 @@ public interface RetrofitService {
     @GET("deputados?ordem=ASC&ordenarPor=nome")
     Call<DeputadoListResponse> getDeputadoList();
 
+    @GET("deputados/")
+    Call<DeputadoListResponse> getDeputadoListByPage(@Query("pagina") int pagina);
+
 }

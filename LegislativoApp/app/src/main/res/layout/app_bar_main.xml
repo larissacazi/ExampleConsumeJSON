@@ -65,6 +65,28 @@
                 app:fab_size="mini"
                 app:fab_title="Página Anterior" />
 
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/lastPage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/main_background"
+                app:fab_colorPressed="@color/main_background"
+                app:fab_plusIconColor="@color/white"
+                app:fab_icon="@drawable/arrow_forward"
+                app:fab_size="mini"
+                app:fab_title="Última Página" />
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/firstPage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/main_background"
+                app:fab_colorPressed="@color/main_background"
+                app:fab_plusIconColor="@color/white"
+                app:fab_icon="@drawable/arrow_back"
+                app:fab_size="mini"
+                app:fab_title="Primeira Página" />
+
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     </FrameLayout>

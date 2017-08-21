@@ -3,7 +3,6 @@ package zimmermann.larissa.legislativoapp;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.Calendar;
@@ -54,8 +54,16 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private final int initialYear = 1934; //Everything starts in 1934
+    private final String proposicoes = "PROP";
+    private final String deputados = "DEP";
+
     private static boolean fabPressed =  false;
     private RecyclerTouchListener propTouch;
+    private String urlNext;
+    private String urlSelf;
+
+    private String label = proposicoes;
+    int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +74,13 @@ public class MainActivity extends AppCompatActivity
 
         final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
         frameLayout.getBackground().setAlpha(0);
+
         final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
+        FloatingActionButton leftButton = (FloatingActionButton) findViewById(R.id.arrowLeft);
+        FloatingActionButton rightButton = (FloatingActionButton) findViewById(R.id.arrowRight);
+        FloatingActionButton lastPageButton = (FloatingActionButton) findViewById(R.id.lastPage);
+        FloatingActionButton firstPageButton = (FloatingActionButton) findViewById(R.id.firstPage);
+
         fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
             public void onMenuExpanded() {
@@ -84,6 +98,38 @@ public class MainActivity extends AppCompatActivity
             public void onMenuCollapsed() {
                 frameLayout.getBackground().setAlpha(0);
                 frameLayout.setOnTouchListener(null);
+            }
+        });
+
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("MainActivity", "RIGHT BUTTON - NEXT LINK: " + urlNext);
+                page++;
+                loadDeputados(page);
+            }
+        });
+
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("MainActivity", "LEFT BUTTON - SELF LINK: " + urlSelf);
+                if(page > 1) page--;
+                loadDeputados(page);
+            }
+        });
+
+        lastPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadDeputados(35);
+            }
+        });
+
+        firstPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadDeputados(1);
             }
         });
 
@@ -147,7 +193,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_prop_ano) {
             showYearDialog();
         } else if (id == R.id.nav_deputados) {
-            loadDeputados();
+            loadDeputados(1);
         } else if (id == R.id.nav_tutorial) {
 
         } else if (id == R.id.nav_share) {
@@ -346,7 +392,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void loadDeputados() {
+    private void loadDeputados(int pg) {
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -355,9 +401,9 @@ public class MainActivity extends AppCompatActivity
         //Call first time
         RetrofitService service = ServiceGenerator.getClient().create(RetrofitService.class);
 
-        Log.d("MainActivity", "Enter::loadDeputados ");
+        Log.d("MainActivity", "Enter::loadDeputados PAge: " + Integer.toString(pg));
         // Call<PropListResponse> call = service.getDefaultProposicaoList();
-        Call<DeputadoListResponse> call = service.getDeputadoList();
+        Call<DeputadoListResponse> call = service.getDeputadoListByPage(pg);
 
         Log.d("MainActivity", "Enter::pass info");
 
@@ -369,6 +415,12 @@ public class MainActivity extends AppCompatActivity
                     DeputadoListResponse respostaServidor = response.body();
 
                     Log.d("MainActivity", "Enter::get the list...");
+
+                    urlSelf = respostaServidor.getLinks().get(0).getHref();
+                    urlNext = respostaServidor.getLinks().get(1).getHref();
+
+                    Log.d("MainActivity", "SELF LINK: " + urlSelf);
+                    Log.d("MainActivity", "NEXT LINK: " + urlNext);
 
                     //verifica aqui se o corpo da resposta não é nulo
                     if (respostaServidor != null) {
