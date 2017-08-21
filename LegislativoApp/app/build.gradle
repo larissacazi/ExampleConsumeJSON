@@ -35,5 +35,6 @@ dependencies {
     compile 'com.github.bluejamesbond:textjustify-android:2.1.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.clans:fab:1.6.4'
+    compile 'com.getbase:floatingactionbutton:1.10.0'
     testCompile 'junit:junit:4.12'
 }
