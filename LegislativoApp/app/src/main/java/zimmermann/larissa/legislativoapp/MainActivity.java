@@ -37,6 +37,7 @@ import zimmermann.larissa.legislativoapp.adapter.DeputadoAdapter;
 import zimmermann.larissa.legislativoapp.adapter.ProposicaoAdapter;
 import zimmermann.larissa.legislativoapp.communication.Deputado;
 import zimmermann.larissa.legislativoapp.communication.DeputadoListResponse;
+import zimmermann.larissa.legislativoapp.communication.Link;
 import zimmermann.larissa.legislativoapp.communication.PropListResponse;
 import zimmermann.larissa.legislativoapp.communication.Proposicao;
 import zimmermann.larissa.legislativoapp.communication.Situation;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity
 
     private static boolean fabPressed =  false;
     private RecyclerTouchListener propTouch;
+    private DividerItemDecoration recyclerDecorator;
     private String nextUrl;
     private String selfUrl;
     private String previousUrl;
@@ -73,6 +75,11 @@ public class MainActivity extends AppCompatActivity
 
         final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
         frameLayout.getBackground().setAlpha(0);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
+        recyclerDecorator = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(recyclerDecorator);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
         FloatingActionButton leftButton = (FloatingActionButton) findViewById(R.id.arrowLeft);
@@ -103,7 +110,8 @@ public class MainActivity extends AppCompatActivity
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(label.compareTo(DEP) == 0) {
+                fabMenu.collapse();
+                if(label.compareTo(DEP) == 0 && nextUrl != null) {
                     Log.d("MainActivity", "rightButton::DEP:link: " + nextUrl);
                     try {
                         DeputadoListResponse responseFromServer = new DepConnectionService().execute(nextUrl).get();
@@ -112,7 +120,7 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-                else if(label.compareTo(PROP) == 0 && nextUrl.isEmpty() == false) {
+                else if(label.compareTo(PROP) == 0  && nextUrl != null && nextUrl.isEmpty() == false) {
                     Log.d("MainActivity", "rightButton::PROP:link: " + nextUrl);
                     try {
                         PropListResponse responseFromServer = new PropConnectionService().execute(nextUrl).get();
@@ -130,7 +138,8 @@ public class MainActivity extends AppCompatActivity
         leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(label.compareTo(DEP) == 0) {
+                fabMenu.collapse();
+                if(label.compareTo(DEP) == 0 && previousUrl != null) {
                     try {
                         DeputadoListResponse responseFromServer = new DepConnectionService().execute(previousUrl).get();
                         loadDepsFromUrl(responseFromServer);
@@ -138,7 +147,7 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-                else if(label.compareTo(PROP) == 0 && previousUrl.isEmpty() == false) {
+                else if(label.compareTo(PROP) == 0  && previousUrl != null && previousUrl.isEmpty() == false) {
                     try {
                         PropListResponse responseFromServer = new PropConnectionService().execute(previousUrl).get();
                         loadPropsFromUrl(responseFromServer);
@@ -155,7 +164,8 @@ public class MainActivity extends AppCompatActivity
         lastPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(label.compareTo(DEP) == 0) {
+                fabMenu.collapse();
+                if(label.compareTo(DEP) == 0 && lastUrl != null) {
                     try {
                         DeputadoListResponse responseFromServer = new DepConnectionService().execute(lastUrl).get();
                         loadDepsFromUrl(responseFromServer);
@@ -163,7 +173,7 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-                else if(label.compareTo(PROP) == 0 && lastUrl.isEmpty() == false) {
+                else if(label.compareTo(PROP) == 0  && lastUrl != null && lastUrl.isEmpty() == false) {
                     try {
                         PropListResponse responseFromServer = new PropConnectionService().execute(lastUrl).get();
                         loadPropsFromUrl(responseFromServer);
@@ -180,7 +190,8 @@ public class MainActivity extends AppCompatActivity
         firstPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(label.compareTo(DEP) == 0) {
+                fabMenu.collapse();
+                if(label.compareTo(DEP) == 0 && firstUrl != null) {
                     try {
                         DeputadoListResponse responseFromServer = new DepConnectionService().execute(firstUrl).get();
                         loadDepsFromUrl(responseFromServer);
@@ -188,7 +199,7 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-                else if(label.compareTo(PROP) == 0 && firstUrl.isEmpty() == false) {
+                else if(label.compareTo(PROP) == 0 && firstUrl != null && firstUrl.isEmpty() == false ) {
                     try {
                         PropListResponse responseFromServer = new PropConnectionService().execute(firstUrl).get();
                         loadPropsFromUrl(responseFromServer);
@@ -368,18 +379,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadPropsFromUrl(PropListResponse respostaServidor) throws IOException {
-
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //verifica aqui se o corpo da resposta não é nulo
         if (respostaServidor != null) {
-            previousUrl = selfUrl;
-            selfUrl = respostaServidor.getLinks().get(0).getHref();
-            nextUrl = respostaServidor.getLinks().get(1).getHref();
-            firstUrl = respostaServidor.getLinks().get(2).getHref();
-            lastUrl = respostaServidor.getLinks().get(3).getHref();
+
+            setLinks(respostaServidor.getLinks());
 
             final List<Proposicao> props = respostaServidor.getDados();
 
@@ -399,8 +404,6 @@ public class MainActivity extends AppCompatActivity
 
     private void loadProps(Call<PropListResponse> call){
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         call.enqueue(new Callback<PropListResponse>() {
             @Override
@@ -408,11 +411,7 @@ public class MainActivity extends AppCompatActivity
                 if (response.isSuccessful()) {
                     PropListResponse respostaServidor = response.body();
 
-                    previousUrl = respostaServidor.getLinks().get(0).getHref();
-                    selfUrl = respostaServidor.getLinks().get(0).getHref();
-                    nextUrl = respostaServidor.getLinks().get(1).getHref();
-                    firstUrl = respostaServidor.getLinks().get(2).getHref();
-                    lastUrl = respostaServidor.getLinks().get(3).getHref();
+                    setLinks(respostaServidor.getLinks());
 
                     //verifica aqui se o corpo da resposta não é nulo
                     if (respostaServidor != null) {
@@ -446,11 +445,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadSituationPropsList(){
-        //final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.situation_props_recyclerview);
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         //Call first time
         RetrofitService service = ServiceGenerator.getClient().create(RetrofitService.class);
         Call<SituationListResponse> call = service.getAllPropSituation();
@@ -498,8 +492,6 @@ public class MainActivity extends AppCompatActivity
     private void loadDepsFromUrl(DeputadoListResponse respostaServidor) throws IOException {
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //verifica aqui se o corpo da resposta não é nulo
         if (respostaServidor != null) {
@@ -523,8 +515,6 @@ public class MainActivity extends AppCompatActivity
     private void loadDeputados() {
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //Call first time
         RetrofitService service = ServiceGenerator.getClient().create(RetrofitService.class);
@@ -537,11 +527,7 @@ public class MainActivity extends AppCompatActivity
                 if (response.isSuccessful()) {
                     DeputadoListResponse respostaServidor = response.body();
 
-                    previousUrl = respostaServidor.getLinks().get(0).getHref();
-                    selfUrl = respostaServidor.getLinks().get(0).getHref();
-                    nextUrl = respostaServidor.getLinks().get(1).getHref();
-                    firstUrl = respostaServidor.getLinks().get(2).getHref();
-                    lastUrl = respostaServidor.getLinks().get(3).getHref();
+                    setLinks(respostaServidor.getLinks());
 
                     //verifica aqui se o corpo da resposta não é nulo
                     if (respostaServidor != null) {
@@ -588,6 +574,29 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    private void setLinks(List<Link> links){
+        previousUrl = null;
+        selfUrl = null;
+        nextUrl = null;
+        firstUrl = null;
+        lastUrl = null;
+
+        for(int i = 0; i < links.size(); i++){
+            Link aux = links.get(i);
+            if (aux.getRel().equals("self")){
+                selfUrl = aux.getHref();
+            }else if (aux.getRel().equals("next")){
+                nextUrl = aux.getHref();
+            }else if (aux.getRel().equals("first")){
+                firstUrl = aux.getHref();
+            }else if (aux.getRel().equals("last")){
+                lastUrl = aux.getHref();
+            }else if (aux.getRel().equals("previous")){
+                previousUrl = aux.getHref();
+            }
+        }
     }
 }
 
