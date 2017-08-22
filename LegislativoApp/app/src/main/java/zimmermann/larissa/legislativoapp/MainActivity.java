@@ -2,8 +2,8 @@ package zimmermann.larissa.legislativoapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,16 +18,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
@@ -55,16 +54,22 @@ public class MainActivity extends AppCompatActivity
 
     private final int initialYear = 1934; //Everything starts in 1934
     private final int numberOfDeputadosPages = 35;
-    private final String proposicoes = "PROP";
-    private final String deputados = "DEP";
+    private final String PROP = "PROP";
+    private final String DEP = "DEP";
+    private final String NOTHING = "NOTHING";
 
     private static boolean fabPressed =  false;
     private RecyclerTouchListener propTouch;
-    private String urlNext;
-    private String urlSelf;
+    private String nextUrl;
+    private String selfUrl;
+    private String previousUrl;
+    private String lastUrl;
+    private String firstUrl;
 
-    private String label = proposicoes;
+    private String label = PROP;
     int page = 1;
+
+    private ConnectionService connection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,32 +110,86 @@ public class MainActivity extends AppCompatActivity
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(page < numberOfDeputadosPages) page++;
-                loadDeputados(page);
+                if(label.compareTo(DEP) == 0) {
+                    Log.d("MainActivity", "rightButton::DEP");
+                    if (page < numberOfDeputadosPages) page++;
+                    loadDeputados(page);
+                }
+                else if(label.compareTo(PROP) == 0 && nextUrl.isEmpty() == false) {
+                    Log.d("MainActivity", "rightButton::PROP:link: " + nextUrl);
+                    try {
+                        PropListResponse responseFromServer = new ConnectionService().execute(nextUrl).get();
+                        loadPropsFromUrl(responseFromServer);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Nada a mostrar.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(page > 1) page--;
-                loadDeputados(page);
+                if(label.compareTo(DEP) == 0) {
+                    if(page > 1) page--;
+                    loadDeputados(page);
+                }
+                else if(label.compareTo(PROP) == 0 && previousUrl.isEmpty() == false) {
+                    try {
+                        PropListResponse responseFromServer = new ConnectionService().execute(previousUrl).get();
+                        loadPropsFromUrl(responseFromServer);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Nada a mostrar.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         lastPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                page = numberOfDeputadosPages;
-                loadDeputados(numberOfDeputadosPages);
+                if(label.compareTo(DEP) == 0) {
+                    page = numberOfDeputadosPages;
+                    loadDeputados(numberOfDeputadosPages);
+                }
+                else if(label.compareTo(PROP) == 0 && lastUrl.isEmpty() == false) {
+                    try {
+                        PropListResponse responseFromServer = new ConnectionService().execute(lastUrl).get();
+                        loadPropsFromUrl(responseFromServer);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Nada a mostrar.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         firstPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                page = 1;
-                loadDeputados(1);
+                if(label.compareTo(DEP) == 0) {
+                    page = 1;
+                    loadDeputados(1);
+                }
+                else if(label.compareTo(PROP) == 0 && firstUrl.isEmpty() == false) {
+                    try {
+                        PropListResponse responseFromServer = new ConnectionService().execute(firstUrl).get();
+                        loadPropsFromUrl(responseFromServer);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Nada a mostrar.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -187,19 +246,23 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_prop) {
+            label = PROP;
             loadPropsByYear(getCurrentYear());
         } else if (id == R.id.nav_prop_situacao) {
-            Toast.makeText(getApplicationContext(), "Situacao das Proposicoes pressionado!", Toast.LENGTH_SHORT).show();
+            label = PROP;
             loadSituationPropsList();
         } else if (id == R.id.nav_prop_ano) {
+            label = PROP;
             showYearDialog();
         } else if (id == R.id.nav_deputados) {
+            label = DEP;
             loadDeputados(1);
         } else if (id == R.id.nav_tutorial) {
-
+            label = NOTHING;
         } else if (id == R.id.nav_share) {
-
+            label = NOTHING;
         } else if (id == R.id.nav_about) {
+            label = NOTHING;
             Intent intent = new Intent(MainActivity.this, DevelopersActivity.class);
             startActivity(intent);
         }
@@ -298,6 +361,44 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void loadPropsFromUrl(PropListResponse respostaServidor) throws IOException {
+
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //verifica aqui se o corpo da resposta não é nulo
+        if (respostaServidor != null) {
+            previousUrl = selfUrl;
+            selfUrl = respostaServidor.getLinks().get(0).getHref();
+            nextUrl = respostaServidor.getLinks().get(1).getHref();
+            firstUrl = respostaServidor.getLinks().get(2).getHref();
+            lastUrl = respostaServidor.getLinks().get(3).getHref();
+
+            Log.d("MainActivity", "loadPropsFromUrl::previousUrl: " + previousUrl);
+            Log.d("MainActivity", "loadPropsFromUrl::selfUrl: " + selfUrl);
+            Log.d("MainActivity", "loadPropsFromUrl::nextUrl: " + nextUrl);
+            Log.d("MainActivity", "loadPropsFromUrl::firstUrl: " + firstUrl);
+            Log.d("MainActivity", "loadPropsFromUrl::lastUrl: " + lastUrl);
+
+
+            Log.d("MainActivity", "loadPropsFromUrl::structure received!");
+            final List<Proposicao> props = respostaServidor.getDados();
+
+            recyclerView.removeOnItemTouchListener(propTouch);
+
+            setPropTouchListener(props, recyclerView);
+
+            recyclerView.addOnItemTouchListener(propTouch);
+
+            ProposicaoAdapter adapter = new ProposicaoAdapter(props, R.layout.list_item_prop, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Resposta nula do servidor", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void loadProps(Call<PropListResponse> call){
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -308,6 +409,18 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(Call<PropListResponse> call, Response<PropListResponse> response) {
                 if (response.isSuccessful()) {
                     PropListResponse respostaServidor = response.body();
+
+                    previousUrl = respostaServidor.getLinks().get(0).getHref();
+                    selfUrl = respostaServidor.getLinks().get(0).getHref();
+                    nextUrl = respostaServidor.getLinks().get(1).getHref();
+                    firstUrl = respostaServidor.getLinks().get(2).getHref();
+                    lastUrl = respostaServidor.getLinks().get(3).getHref();
+
+                    Log.d("MainActivity", "loadProps::previousUrl: " + previousUrl);
+                    Log.d("MainActivity", "loadProps::selfUrl: " + selfUrl);
+                    Log.d("MainActivity", "loadProps::nextUrl: " + nextUrl);
+                    Log.d("MainActivity", "loadProps::firstUrl: " + firstUrl);
+                    Log.d("MainActivity", "loadProps::lastUrl: " + lastUrl);
 
                     //verifica aqui se o corpo da resposta não é nulo
                     if (respostaServidor != null) {
@@ -416,12 +529,6 @@ public class MainActivity extends AppCompatActivity
                     DeputadoListResponse respostaServidor = response.body();
 
                     Log.d("MainActivity", "Enter::get the list...");
-
-                    urlSelf = respostaServidor.getLinks().get(0).getHref();
-                    urlNext = respostaServidor.getLinks().get(1).getHref();
-
-                    Log.d("MainActivity", "SELF LINK: " + urlSelf);
-                    Log.d("MainActivity", "NEXT LINK: " + urlNext);
 
                     //verifica aqui se o corpo da resposta não é nulo
                     if (respostaServidor != null) {
