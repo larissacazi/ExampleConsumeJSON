@@ -24,11 +24,15 @@
         <activity
             android:name=".PropDetailsActivity"
             android:label="@string/title_activity_prop_details2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DevelopersActivity"
             android:label="@string/developers_title"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".InformationActivity"
+            android:label="@string/saiba_mais"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

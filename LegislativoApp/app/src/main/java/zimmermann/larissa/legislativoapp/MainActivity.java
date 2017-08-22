@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity
             loadDeputados();
         } else if (id == R.id.nav_tutorial) {
             label = NOTHING;
-            Intent intent = new Intent(MainActivity.this, DevelopersActivity.class);
+            Intent intent = new Intent(MainActivity.this, InformationActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_share) {
             label = NOTHING;

@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="zimmermann.larissa.legislativoapp.InformationActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/dev_toolbar_info"
+            app:title="@string/saiba_mais"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="60dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_top_bottom">
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Congresso Nacional"/>
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="16sp"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="O Congresso Nacional é o órgão constitucional responsável por exercer o Poder Legislativo Federal. É composto pela Câmara dos Deputados e pelo Senado Federal."/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_top_bottom">
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Câmara dos Deputados"/>
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="16sp"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="A Câmara dos Deputados é o órgão do Poder Legislativo Federal que compõe o Congresso Nacional juntamente com o Senado Federal. É composto pelos deputados federais que representam os interesses da população, sendo assim conhecido como o ramo popular."/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_top_bottom">
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Senado Federal"/>
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="16sp"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="O Senado Federal é o órgão do Poder Legislativo Federal, assim como a Câmara dos Deputados, integrando o Congresso Nacional. É composto pelos senadores que representam os interesses do Distrito Federal e dos Estados federados do Brasil."/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_top_bottom">
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Processo Legislativo"/>
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="16sp"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Processo legislativo é o conjunto de atos que possibilita a criação de uma norma ou regra do Direito Brasileiro. Transforma, assim, uma propositura em lei ordinária, emenda constitucional, lei financeira, lei delegada, lei complementar e medidas provisórias, após a discussão no Congresso Nacional e análise pelo Poder Executivo, respectivamente, para ser promulga e publicada, caso não seja arquivada a propositura."/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_top_bottom">
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Proposições Legislativas"/>
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="16sp"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="As proposições legislativas são projetos de lei, em sentido amplo, que tramitam no Congresso Nacional de acordo com o procedimento previsto na Constituição Federal de 1988, e toda matéria que é deliberada na Câmara dos Deputados quanto no Senado Federal, como, por exemplo, resoluções, pareceres, emendas, indicações e entre outras."/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_top_bottom">
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Lei Ordinária"/>
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="16sp"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="A lei ordinária define-se pela norma no Ordenamento Jurídico Brasileiro que é aprovada por maioria simples (metade mais um dos presentes na votação) tanto na Câmara dos Deputados quanto no Senado Federal, além de não ter uma especificidade constitucional quanto à matéria integrar a lei ordinária."/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_top_bottom">
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Lei Complementar"/>
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="16sp"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Diferentemente da lei ordinária, a lei complementar define-se por ser uma norma do Direito Brasileiro que é aprovada por maioria absoluta (isto é, a metade mais um do quórum máximo), bem como por ter as matérias especificadas na Constituição Federal de 1988."/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_top_bottom">
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Emenda Constitucional"/>
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="16sp"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="A emenda constitucional é a norma no Direito Brasileiro que promove a alteração na Constituição Federal de 1988. Observa-se que a Constituição Federal de 1988 somente podem ser alteradas pelas emendas constitucionais, sendo, dessa forma, considerada uma violação àquela caso não seja observado o procedimento legislativo de aprovação da emenda constitucional."/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_top_bottom">
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Lei Financeira"/>
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="16sp"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="A lei financeira é as normas do Direito brasileiro que tratam de regular e reger o Sistema Financeiro Nacional. São espécies desse gênero a lei do plano plurianual, lei de diretrizes orçamentárias, lei do orçamento anual e de abertura de créditos adicionais."/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_top_bottom">
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Medida Provisória"/>
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="16sp"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="A medida provisória é instrumento, com força de lei, adotado pelo Presidente da República. No entanto, para se editar uma medida provisória é necessário observar os critérios de relevância e urgência, bem como esse instrumento não pode tratar de matérias relativas à nacionalidade, cidadania, direitos políticos, direito eleitoral, direito penal, direito processual penal e processual civil, organização do Poder Judiciário e do Ministério Público, à detenção ou sequestro de bens, poupanças populares ou qualquer ativo financeiro, a temas reservados a leis financeiras e leis complementares e aos temas já disciplinados em projeto de lei aprovado pelo Congresso Nacional e pendente de sanção ou veto do Presidente da República."/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_top_bottom">
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Lei Delegada"/>
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="16sp"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="A lei delegada tem a natureza de uma lei ordinária, devendo, então, respeitar as regras e procedimentos dessa. No entanto, a lei complementar diferencia-se quanto à sua competência para a elaboração que é da Presidência da República, uma vez que o Congresso Nacional pode delegar esta competência."/>
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
