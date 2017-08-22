@@ -15,7 +15,7 @@ import zimmermann.larissa.legislativoapp.communication.PropListResponse;
  * Created by laris on 22/08/2017.
  */
 
-public class ConnectionService extends AsyncTask<String, Void, PropListResponse>{
+public class PropConnectionService extends AsyncTask<String, Void, PropListResponse>{
 
     @Override
     protected PropListResponse doInBackground(String... sURL) {
