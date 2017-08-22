@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private final int initialYear = 1934; //Everything starts in 1934
+    private final int numberOfDeputadosPages = 35;
     private final String proposicoes = "PROP";
     private final String deputados = "DEP";
 
@@ -104,8 +105,7 @@ public class MainActivity extends AppCompatActivity
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("MainActivity", "RIGHT BUTTON - NEXT LINK: " + urlNext);
-                page++;
+                if(page < numberOfDeputadosPages) page++;
                 loadDeputados(page);
             }
         });
@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity
         leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("MainActivity", "LEFT BUTTON - SELF LINK: " + urlSelf);
                 if(page > 1) page--;
                 loadDeputados(page);
             }
@@ -122,13 +121,15 @@ public class MainActivity extends AppCompatActivity
         lastPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadDeputados(35);
+                page = numberOfDeputadosPages;
+                loadDeputados(numberOfDeputadosPages);
             }
         });
 
         firstPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                page = 1;
                 loadDeputados(1);
             }
         });
