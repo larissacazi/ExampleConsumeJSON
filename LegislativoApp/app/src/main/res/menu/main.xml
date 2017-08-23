@@ -6,11 +6,14 @@
         android:title="@string/action_settings"
         app:showAsAction="collapseActionView" />-->
     <item
-        android:id="@+id/action_share"
-        android:title="Compartilhar"
-        app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
-    <item
         android:id="@+id/action_contact"
         android:title="@string/action_contact"
+        android:icon="@drawable/ic_menu_mail_outline"
         app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/action_share"
+        android:title="Compartilhar"
+        android:icon="@drawable/ic_menu_share"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
+
 </menu>
