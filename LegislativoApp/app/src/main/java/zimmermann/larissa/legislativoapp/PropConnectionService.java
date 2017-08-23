@@ -32,11 +32,8 @@ public class PropConnectionService extends AsyncTask<String, Integer, PropListRe
             URL url = new URL(sURL[0]);
             InputStreamReader reader = new InputStreamReader(url.openStream());
             PropListResponse respostaServidor = new Gson().fromJson(reader, PropListResponse.class);
-
             return respostaServidor;
         } catch (Exception e){
-            Log.d("MainActivity", "loadPropsFromUrl::doInBackground: " + e.toString());
-
             return null;
         }
     }

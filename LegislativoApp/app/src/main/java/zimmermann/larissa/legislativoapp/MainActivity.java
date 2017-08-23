@@ -146,7 +146,6 @@ public class MainActivity extends AppCompatActivity
                 startLoading();
 
                 if(label.compareTo(DEP) == 0 && nextUrl != null) {
-                    Log.d("MainActivity", "rightButton::DEP:link: " + nextUrl);
                     try {
                         DepConnectionService dcs = new DepConnectionService();
                         dcs.registerCallback(depcb);
@@ -156,7 +155,6 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
                 else if(label.compareTo(PROP) == 0  && nextUrl != null && nextUrl.isEmpty() == false) {
-                    Log.d("MainActivity", "rightButton::PROP:link: " + nextUrl);
                     try {
                         PropConnectionService pcs = new PropConnectionService();
                         pcs.registerCallback(propcb);

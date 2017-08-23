@@ -35,7 +35,6 @@ public class DepConnectionService extends AsyncTask<String, Void, DeputadoListRe
             DeputadoListResponse respostaServidor = new Gson().fromJson(reader, DeputadoListResponse.class);
             return respostaServidor;
         } catch (Exception e) {
-            Log.d("MainActivity", "loadPropsFromUrl::doInBackground: " + e.toString());
             return null;
         }
     }

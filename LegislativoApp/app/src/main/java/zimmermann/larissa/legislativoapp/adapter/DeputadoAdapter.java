@@ -77,8 +77,6 @@ public class DeputadoAdapter extends RecyclerView.Adapter<DeputadoAdapter.Deputa
         holder.ufDeputado.setText(context.getString(R.string.depListUF) + deputadoList.get(position).getSiglaUf());
 
         Picasso.with(this.context).load(deputadoList.get(position).getUrlFoto()).into(holder.fotoDeputado);
-
-        Log.d("MainActivity", "Enter::fotoDeputado!");
     }
 
     @Override

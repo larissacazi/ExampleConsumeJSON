@@ -16,8 +16,6 @@ public class PropResponse {
     }
 
     public Proposicao getDados() {
-        Log.d("MainActivity", "getDados()");
-        Log.d("MainActivity", "Dados: " + this.dados);
         return dados;
     }
 

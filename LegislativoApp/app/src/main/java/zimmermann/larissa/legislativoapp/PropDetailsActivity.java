@@ -56,8 +56,6 @@ public class PropDetailsActivity extends AppCompatActivity {
         //Call first time
         RetrofitService service = ServiceGenerator.getClient().create(RetrofitService.class);
 
-        Log.d("MainActivity", "Passou1");
-
         Call<PropResponse> call = service.getProposicaoById(codigo);
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.prop_detail_recyclerview);
@@ -67,17 +65,11 @@ public class PropDetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PropResponse> call, Response<PropResponse> response) {
 
-                Log.d("MainActivity", "Recebeu resposta.");
                 if (response.isSuccessful()) {
-                    Log.d("MainActivity", "Resposta recebida com sucesso.");
                     PropResponse respostaServidor = response.body();
-                    Log.d("MainActivity", "Response saved!");
-
                     //verifica aqui se o corpo da resposta não é nulo
                     if (respostaServidor != null) {
-                        Log.d("MainActivity", "PropListResponse structure received!");
                         final Proposicao prop = respostaServidor.getDados();
-
                         List<SpannableStringBuilder> dataList = new ArrayList<SpannableStringBuilder>();
 
                         addCheckedText(dataList, getString(R.string.propId), String.valueOf(prop.getId()));
@@ -114,7 +106,6 @@ public class PropDetailsActivity extends AppCompatActivity {
             public void onFailure(Call<PropResponse> call, Throwable t) {
 
                 Toast.makeText(getApplicationContext(), "Erro na chamada ao servidor", Toast.LENGTH_SHORT).show();
-                Log.d("MainActivity", "Error OnFailure()");
             }
         });
     }
