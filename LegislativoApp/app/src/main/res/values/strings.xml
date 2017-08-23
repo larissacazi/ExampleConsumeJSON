@@ -5,6 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Sobre</string>
+    <string name="action_contact">Contato</string>
 
     <string name="propCódigoLabel">Número da Proposição:\u0020</string>
     <string name="propAnoLabel">Ano:\u0020</string>

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -298,12 +299,20 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if(id == R.id.action_settings) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
             View layout = inflater.inflate(R.layout.about, null);
             builder.setView(layout);
             builder.show();
+            return true;
+        }
+        else if(id == R.id.action_contact) {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+            emailIntent.setData(Uri.parse("mailto: infoja.app@gmail.com"));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[InfoJá] Dúvidas e Sugestões");
+            startActivity(Intent.createChooser(emailIntent, "Enviar e-mail..."));
+
             return true;
         }
 
