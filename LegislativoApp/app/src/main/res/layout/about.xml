@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="40dp"
+    android:orientation="vertical"
+    android:background="@drawable/border_top_bottom">
+
+        <ImageView
+            android:id="@+id/info_ja_img"
+            android:layout_width="200dp"
+            android:layout_height="190dp"
+            android:padding="15dp"
+            android:layout_gravity="center"
+            android:src="@drawable/info_ja" />
+
+        <TextView
+            android:id="@+id/info_ja_txt"
+            android:textColor="@color/colorBlack"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:padding="20dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="InfoJá"/>
+
+        <TextView
+            android:textColor="@color/colorBlack"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="16sp"
+            android:padding="2dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="InfoJá é um aplicativo que proporciona uma visão mais clara e acessível da Câmara dos Deputados. Todo brasileiro poderá acompanhar a situação de cada proposição desde 1934, além de saber quais são os atuais deputados que constituem a Câmara."/>
+
+</LinearLayout>

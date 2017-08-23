@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -21,7 +22,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -296,6 +299,11 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            View layout = inflater.inflate(R.layout.about, null);
+            builder.setView(layout);
+            builder.show();
             return true;
         }
 

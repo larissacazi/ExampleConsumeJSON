@@ -35,6 +35,8 @@
     <string name="prop_details_title">Proposição</string>
     <string name="developers_title">Desenvolvedores</string>
     <string name="saiba_mais">Saiba mais</string>
+    <string name="sobre_app">Sobre o App</string>
+    <string name="accept">OK</string>
 
     <string name="loading">Carregando...</string>
 
