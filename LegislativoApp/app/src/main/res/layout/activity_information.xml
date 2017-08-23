@@ -181,7 +181,7 @@
                     android:padding="2dp"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="As proposições legislativas são projetos de lei, em sentido amplo, que tramitam no Congresso Nacional de acordo com o procedimento previsto na Constituição Federal de 1988, e toda matéria que é deliberada na Câmara dos Deputados quanto no Senado Federal, como, por exemplo, resoluções, pareceres, emendas, indicações e entre outras."/>
+                    android:text="As proposições legislativas são projetos de lei, em sentido amplo, que tramitam no Congresso Nacional de acordo com o procedimento previsto na Constituição Federal de 1988, e toda matéria que é deliberada tanto na Câmara dos Deputados quanto no Senado Federal, como, por exemplo, resoluções, pareceres, emendas, indicações e entre outras."/>
 
             </LinearLayout>
 
