@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity
     private final int INITIAL_YEAR = 1934;
     private final String PROP = "PROP";
     private final String DEP = "DEP";
-    private final String NOTHING = "NOTHING";
 
     private ProgressDialog loading;
 
@@ -341,13 +340,10 @@ public class MainActivity extends AppCompatActivity
             label = DEP;
             loadDeputados();
         } else if (id == R.id.nav_tutorial) {
-            label = NOTHING;
             Intent intent = new Intent(MainActivity.this, InformationActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_share) {
-            label = NOTHING;
         } else if (id == R.id.nav_about) {
-            label = NOTHING;
             Intent intent = new Intent(MainActivity.this, DevelopersActivity.class);
             startActivity(intent);
         }
@@ -397,7 +393,6 @@ public class MainActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
                 startLoading();
                 Integer year = arrayAdapter.getItem(which);
-                Toast.makeText(getApplicationContext(), "Year: " + year.toString(), Toast.LENGTH_SHORT).show();
                 loadPropsByYear(year.intValue());
             }
         });
@@ -423,7 +418,6 @@ public class MainActivity extends AppCompatActivity
                 startLoading();
                 String situation = arrayAdapter.getItem(which);
                 int idx = findSituationId(situationList, situation);
-                Toast.makeText(getApplicationContext(), "Situation: " + situation + "ID: " + Integer.toString(idx), Toast.LENGTH_SHORT).show();
                 loadPropsBySituationId(idx);
             }
         });
@@ -493,7 +487,7 @@ public class MainActivity extends AppCompatActivity
                     }
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "Resposta não foi sucesso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Falha de comunicação", Toast.LENGTH_SHORT).show();
                     // segura os erros de requisição
                     ResponseBody errorBody = response.errorBody();
                 }
@@ -540,7 +534,7 @@ public class MainActivity extends AppCompatActivity
 
                 } else {
 
-                    Toast.makeText(getApplicationContext(), "Resposta não foi sucesso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Falha de comunicação", Toast.LENGTH_SHORT).show();
                     // segura os erros de requisição
                     ResponseBody errorBody = response.errorBody();
                 }
@@ -600,7 +594,7 @@ public class MainActivity extends AppCompatActivity
                     }
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "Resposta não foi sucesso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Falha de comunicação", Toast.LENGTH_SHORT).show();
                     // segura os erros de requisição
                     ResponseBody errorBody = response.errorBody();
                 }
