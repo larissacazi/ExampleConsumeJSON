@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
         <item
@@ -26,12 +27,18 @@
 
     <item android:title="Sobre o Aplicativo">
         <menu>
-            <item
+            <!--<item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Compartilhar" />
+                android:title="Compartilhar"
+                app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />-->
             <item
-                android:id="@+id/nav_about"
+                android:id="@+id/nav_about_app"
+                android:title="@string/action_settings"
+                android:icon="@drawable/ic_menu_about"
+                app:showAsAction="collapseActionView" />
+            <item
+                android:id="@+id/nav_about_devs"
                 android:icon="@drawable/sobre_nos"
                 android:title="Sobre os Desenvolvedores" />
         </menu>

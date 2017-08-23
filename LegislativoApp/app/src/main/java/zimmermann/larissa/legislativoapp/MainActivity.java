@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +28,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import android.support.v7.widget.ShareActionProvider;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -70,6 +73,8 @@ public class MainActivity extends AppCompatActivity
     private RecyclerTouchListener propTouch;
     private DividerItemDecoration recyclerDecorator;
 
+    private ShareActionProvider mShareActionProvider;
+
     private String nextUrl;
     private String selfUrl;
     private String previousUrl;
@@ -83,6 +88,7 @@ public class MainActivity extends AppCompatActivity
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -287,6 +293,20 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem share = menu.findItem(R.id.action_share);
+        if(share != null) {
+            mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(share);
+
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            String shareBody = "Info Já";
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Share Subject");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+
+            mShareActionProvider.setShareIntent(sharingIntent);
+        }
+
         return true;
     }
 
@@ -298,15 +318,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if(id == R.id.action_settings) {
+        /*if(id == R.id.action_settings) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
             View layout = inflater.inflate(R.layout.about, null);
             builder.setView(layout);
             builder.show();
             return true;
-        }
-        else if(id == R.id.action_contact) {
+        }//*/
+        //else
+        if(id == R.id.action_contact) {
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
             emailIntent.setData(Uri.parse("mailto: infoja.app@gmail.com"));
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[InfoJá] Dúvidas e Sugestões");
@@ -342,8 +363,13 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_tutorial) {
             Intent intent = new Intent(MainActivity.this, InformationActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_share) {
-        } else if (id == R.id.nav_about) {
+        } else if (id == R.id.nav_about_app) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            View layout = inflater.inflate(R.layout.about, null);
+            builder.setView(layout);
+            builder.show();
+        } else if (id == R.id.nav_about_devs) {
             Intent intent = new Intent(MainActivity.this, DevelopersActivity.class);
             startActivity(intent);
         }
