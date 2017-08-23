@@ -6,9 +6,9 @@
 
     <string name="action_settings">Sobre</string>
 
-    <string name="propCódigoLabel">Código:\u0020</string>
+    <string name="propCódigoLabel">Número da Proposição:\u0020</string>
     <string name="propAnoLabel">Ano:\u0020</string>
-    <string name="propId">Código:\u0020</string>
+    <string name="propId">Número da Proposição:\u0020</string>
     <string name="propDataApresentacao">Apresentação:\u0020</string>
     <string name="propSiglaTipo">Sigla do Tipo:\u0020</string>
     <string name="propDescricaoTipo">Tipo:\u0020</string>
@@ -22,7 +22,7 @@
     <string name="propDescricaoTramitacao">Tramitação:\u0020</string>
     <string name="propDespacho">Despacho:\u0020</string>
 
-    <string name="propListCodigo">Código:\u0020</string>
+    <string name="propListCodigo">Número da Proposição:\u0020</string>
     <string name="propListEmenta">Ementa:\u0020</string>
     <string name="propListAno">Ano:\u0020</string>
 
@@ -36,5 +36,6 @@
     <string name="developers_title">Desenvolvedores</string>
     <string name="saiba_mais">Saiba mais</string>
 
+    <string name="loading">Carregando...</string>
 
 </resources>

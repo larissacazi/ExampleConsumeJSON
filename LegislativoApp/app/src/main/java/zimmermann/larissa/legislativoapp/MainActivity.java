@@ -1,5 +1,6 @@
 package zimmermann.larissa.legislativoapp;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -49,16 +51,21 @@ import zimmermann.larissa.legislativoapp.service.RetrofitService;
 import zimmermann.larissa.legislativoapp.service.ServiceGenerator;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        PropConnectionService.propCallBack,
+        DepConnectionService.depCallBack{
 
     private final int INITIAL_YEAR = 1934;
     private final String PROP = "PROP";
     private final String DEP = "DEP";
     private final String NOTHING = "NOTHING";
 
-    private static boolean fabPressed =  false;
+    private ProgressDialog loading;
+
+    private RecyclerView recyclerView;
     private RecyclerTouchListener propTouch;
     private DividerItemDecoration recyclerDecorator;
+
     private String nextUrl;
     private String selfUrl;
     private String previousUrl;
@@ -76,15 +83,25 @@ public class MainActivity extends AppCompatActivity
         final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
         frameLayout.getBackground().setAlpha(0);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
+        loading = new ProgressDialog(MainActivity.this);
+        loading.setIndeterminate(true);
+        loading.setTitle(getString(R.string.loading));
+        loading.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        loading.setProgressNumberFormat(null);
+        loading.setProgressPercentFormat(null);
+        loading.show();
+
+        recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
         recyclerDecorator = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(recyclerDecorator);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        loadPropsByYear(getCurrentYear());
+
         final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
         FloatingActionButton leftButton = (FloatingActionButton) findViewById(R.id.arrowLeft);
         FloatingActionButton rightButton = (FloatingActionButton) findViewById(R.id.arrowRight);
-        FloatingActionButton lastPageButton = (FloatingActionButton) findViewById(R.id.lastPage);
+        final FloatingActionButton lastPageButton = (FloatingActionButton) findViewById(R.id.lastPage);
         FloatingActionButton firstPageButton = (FloatingActionButton) findViewById(R.id.firstPage);
 
         fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
@@ -107,15 +124,21 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        final PropConnectionService.propCallBack propcb = this;
+        final DepConnectionService.depCallBack depcb = this;
+
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fabMenu.collapse();
+                startLoading();
+
                 if(label.compareTo(DEP) == 0 && nextUrl != null) {
                     Log.d("MainActivity", "rightButton::DEP:link: " + nextUrl);
                     try {
-                        DeputadoListResponse responseFromServer = new DepConnectionService().execute(nextUrl).get();
-                        loadDepsFromUrl(responseFromServer);
+                        DepConnectionService dcs = new DepConnectionService();
+                        dcs.registerCallback(depcb);
+                        dcs.execute(nextUrl);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -123,14 +146,18 @@ public class MainActivity extends AppCompatActivity
                 else if(label.compareTo(PROP) == 0  && nextUrl != null && nextUrl.isEmpty() == false) {
                     Log.d("MainActivity", "rightButton::PROP:link: " + nextUrl);
                     try {
-                        PropListResponse responseFromServer = new PropConnectionService().execute(nextUrl).get();
-                        loadPropsFromUrl(responseFromServer);
+                        PropConnectionService pcs = new PropConnectionService();
+                        pcs.registerCallback(propcb);
+                        pcs.execute(nextUrl);
+                        //PropListResponse responseFromServer = pcs.execute(nextUrl).get();
+                        //loadPropsFromUrl(responseFromServer);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Nada a mostrar.", Toast.LENGTH_SHORT).show();
+                    endLoading();
                 }
             }
         });
@@ -139,24 +166,29 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 fabMenu.collapse();
+                startLoading();
+
                 if(label.compareTo(DEP) == 0 && previousUrl != null) {
                     try {
-                        DeputadoListResponse responseFromServer = new DepConnectionService().execute(previousUrl).get();
-                        loadDepsFromUrl(responseFromServer);
+                        DepConnectionService dcs = new DepConnectionService();
+                        dcs.registerCallback(depcb);
+                        dcs.execute(previousUrl);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 else if(label.compareTo(PROP) == 0  && previousUrl != null && previousUrl.isEmpty() == false) {
                     try {
-                        PropListResponse responseFromServer = new PropConnectionService().execute(previousUrl).get();
-                        loadPropsFromUrl(responseFromServer);
+                        PropConnectionService pcs = new PropConnectionService();
+                        pcs.registerCallback(propcb);
+                        pcs.execute(previousUrl);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Nada a mostrar.", Toast.LENGTH_SHORT).show();
+                    endLoading();
                 }
             }
         });
@@ -165,24 +197,29 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 fabMenu.collapse();
+                startLoading();
+
                 if(label.compareTo(DEP) == 0 && lastUrl != null) {
                     try {
-                        DeputadoListResponse responseFromServer = new DepConnectionService().execute(lastUrl).get();
-                        loadDepsFromUrl(responseFromServer);
+                        DepConnectionService dcs = new DepConnectionService();
+                        dcs.registerCallback(depcb);
+                        dcs.execute(lastUrl);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 else if(label.compareTo(PROP) == 0  && lastUrl != null && lastUrl.isEmpty() == false) {
                     try {
-                        PropListResponse responseFromServer = new PropConnectionService().execute(lastUrl).get();
-                        loadPropsFromUrl(responseFromServer);
+                        PropConnectionService pcs = new PropConnectionService();
+                        pcs.registerCallback(propcb);
+                        pcs.execute(lastUrl);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Nada a mostrar.", Toast.LENGTH_SHORT).show();
+                    endLoading();
                 }
             }
         });
@@ -191,24 +228,29 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 fabMenu.collapse();
+                startLoading();
+
                 if(label.compareTo(DEP) == 0 && firstUrl != null) {
                     try {
-                        DeputadoListResponse responseFromServer = new DepConnectionService().execute(firstUrl).get();
-                        loadDepsFromUrl(responseFromServer);
+                        DepConnectionService dcs = new DepConnectionService();
+                        dcs.registerCallback(depcb);
+                        dcs.execute(firstUrl);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 else if(label.compareTo(PROP) == 0 && firstUrl != null && firstUrl.isEmpty() == false ) {
                     try {
-                        PropListResponse responseFromServer = new PropConnectionService().execute(firstUrl).get();
-                        loadPropsFromUrl(responseFromServer);
+                        PropConnectionService pcs = new PropConnectionService();
+                        pcs.registerCallback(propcb);
+                        pcs.execute(firstUrl);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Nada a mostrar.", Toast.LENGTH_SHORT).show();
+                    endLoading();
                 }
             }
         });
@@ -223,8 +265,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
-
-        loadPropsByYear(getCurrentYear());
     }
 
     @Override
@@ -266,15 +306,18 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_prop) {
+            startLoading();
             label = PROP;
             loadPropsByYear(getCurrentYear());
         } else if (id == R.id.nav_prop_situacao) {
+            startLoading();
             label = PROP;
             loadSituationPropsList();
         } else if (id == R.id.nav_prop_ano) {
             label = PROP;
             showYearDialog();
         } else if (id == R.id.nav_deputados) {
+            startLoading();
             label = DEP;
             loadDeputados();
         } else if (id == R.id.nav_tutorial) {
@@ -332,6 +375,7 @@ public class MainActivity extends AppCompatActivity
         builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                startLoading();
                 Integer year = arrayAdapter.getItem(which);
                 Toast.makeText(getApplicationContext(), "Year: " + year.toString(), Toast.LENGTH_SHORT).show();
                 loadPropsByYear(year.intValue());
@@ -356,6 +400,7 @@ public class MainActivity extends AppCompatActivity
         builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                startLoading();
                 String situation = arrayAdapter.getItem(which);
                 int idx = findSituationId(situationList, situation);
                 Toast.makeText(getApplicationContext(), "Situation: " + situation + "ID: " + Integer.toString(idx), Toast.LENGTH_SHORT).show();
@@ -379,8 +424,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadPropsFromUrl(PropListResponse respostaServidor) throws IOException {
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
-
         //verifica aqui se o corpo da resposta não é nulo
         if (respostaServidor != null) {
 
@@ -400,11 +443,10 @@ public class MainActivity extends AppCompatActivity
         } else {
             Toast.makeText(getApplicationContext(), "Resposta nula do servidor", Toast.LENGTH_SHORT).show();
         }
+        endLoading();
     }
 
     private void loadProps(Call<PropListResponse> call){
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
-
         call.enqueue(new Callback<PropListResponse>() {
             @Override
             public void onResponse(Call<PropListResponse> call, Response<PropListResponse> response) {
@@ -435,6 +477,7 @@ public class MainActivity extends AppCompatActivity
                     // segura os erros de requisição
                     ResponseBody errorBody = response.errorBody();
                 }
+                endLoading();
             }
 
             @Override
@@ -468,6 +511,7 @@ public class MainActivity extends AppCompatActivity
                                 return arg1.compareTo(arg0);
                             }
                         });
+                        endLoading();
                         showPropsSituationDialog(arrayAdapter, situationList);
                     } else {
 
@@ -495,11 +539,7 @@ public class MainActivity extends AppCompatActivity
 
         //verifica aqui se o corpo da resposta não é nulo
         if (respostaServidor != null) {
-            previousUrl = selfUrl;
-            selfUrl = respostaServidor.getLinks().get(0).getHref();
-            nextUrl = respostaServidor.getLinks().get(1).getHref();
-            firstUrl = respostaServidor.getLinks().get(2).getHref();
-            lastUrl = respostaServidor.getLinks().get(3).getHref();
+            setLinks(respostaServidor.getLinks());
 
             final List<Deputado> deputados = respostaServidor.getDados();
 
@@ -510,12 +550,10 @@ public class MainActivity extends AppCompatActivity
         } else {
             Toast.makeText(getApplicationContext(), "Resposta nula do servidor", Toast.LENGTH_SHORT).show();
         }
+        endLoading();
     }
 
     private void loadDeputados() {
-
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.props_recyclerview);
-
         //Call first time
         RetrofitService service = ServiceGenerator.getClient().create(RetrofitService.class);
         Call<DeputadoListResponse> call = service.getDeputadoList();
@@ -546,6 +584,7 @@ public class MainActivity extends AppCompatActivity
                     // segura os erros de requisição
                     ResponseBody errorBody = response.errorBody();
                 }
+                endLoading();
             }
 
             @Override
@@ -596,6 +635,32 @@ public class MainActivity extends AppCompatActivity
             }else if (aux.getRel().equals("previous")){
                 previousUrl = aux.getHref();
             }
+        }
+    }
+
+    private void startLoading(){
+        loading.show();
+    }
+
+    private void endLoading(){
+        loading.dismiss();
+    }
+
+    @Override
+    public void updateProps(PropListResponse responseFromServer) {
+        try {
+            loadPropsFromUrl(responseFromServer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateDeps(DeputadoListResponse responseFromServer) {
+        try {
+            loadDepsFromUrl(responseFromServer);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

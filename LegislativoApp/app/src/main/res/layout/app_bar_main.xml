@@ -17,13 +17,13 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_collapseMode="pin"
             app:layout_scrollFlags="scroll|enterAlways" />
 
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main"
         android:id="@+id/include" />
-
 
     <FrameLayout
         android:id="@+id/frame_layout"
