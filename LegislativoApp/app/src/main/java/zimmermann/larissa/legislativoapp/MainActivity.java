@@ -298,8 +298,8 @@ public class MainActivity extends AppCompatActivity
 
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
-            String shareBody = "Info Já";
-            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Share Subject");
+            String shareBody = "https://play.google.com/store/apps/details?id=zimmermann.larissa.legislativoapp";
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "InfoJá");
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 
             mShareActionProvider.setShareIntent(sharingIntent);
@@ -332,16 +332,6 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        /*if(id == R.id.action_settings) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            LayoutInflater inflater = getLayoutInflater();
-            View layout = inflater.inflate(R.layout.about, null);
-            builder.setView(layout);
-            builder.show();
-            return true;
-        }//*/
-        //else
         if(id == R.id.action_contact) {
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
             emailIntent.setData(Uri.parse("mailto: infoja.app@gmail.com"));
