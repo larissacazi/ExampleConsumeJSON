@@ -34,6 +34,47 @@
             android:paddingRight="10dp"
             android:paddingBottom="2dp">
 
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_top_bottom">
+
+                <ImageView
+                    android:id="@+id/deafioLogo"
+                    android:layout_width="100dp"
+                    android:layout_height="90dp"
+                    android:scaleX="2"
+                    android:scaleY="2"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ppassf" />
+
+                <ImageView
+                    android:id="@+id/camaraLogo"
+                    android:layout_width="100dp"
+                    android:layout_height="90dp"
+                    android:scaleX="2"
+                    android:scaleY="2"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo_desafio_vetor" />
+
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Concurso App Legislativo 2017"/>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
